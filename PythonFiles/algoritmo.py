@@ -1,8 +1,9 @@
 import numpy as np
 
+
 def algoritmo():
     l = np.array([[10, 20],[30,40]])
-    m = 10
+    m = 6
     n = m-1
     a = np.zeros((m,m), int)
     a[0,0] = 10

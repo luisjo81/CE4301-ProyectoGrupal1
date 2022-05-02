@@ -3,7 +3,7 @@ from PIL import Image
 import numpy as np
 import cv2
 
-imagen = cv2.imread('./test.png', 0)
+imagen = cv2.imread('./vengadores.png', 0)
 cv2.imwrite('Grises.png',imagen)
 
 image = Image.open("./Grises.png")
