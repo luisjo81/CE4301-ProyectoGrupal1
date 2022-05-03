@@ -32,7 +32,7 @@ def deleteEndOfLine():
     global instructionsList
     for i in instructionsList:
         if len(instructionsList) == cont:
-            tempList = tempList + [i]
+            break
         else:
             tempList = tempList + [i[0:-1]]
             cont += 1
@@ -214,9 +214,9 @@ def parseRegister(register):
 def getNumberOfRegisters(operation):
     if operation == 'ADD' or operation == 'SUB' or operation == 'MUL' or operation == 'AND' or operation == 'OR' or operation == 'XOR' or operation == 'CMP':
         return 3
-    elif operation == 'ADDI' or operation == 'SUBI' or operation == 'MULI' or operation == 'MOV' or operation == 'ANDI' or operation == 'ORI' or operation == 'NOT':
+    elif operation == 'ADDI' or operation == 'SUBI' or operation == 'MULI' or operation == 'MOV' or operation == 'ANDI' or operation == 'ORI' or operation == 'NOT' or operation == 'LDR' or operation == 'LDA' or operation == 'STR' :
         return 2
-    elif operation == 'LDR' or operation == 'LDA' or operation == 'STR' or operation == 'MOVI':
+    elif operation == 'MOVI':
         return 1
     else:
         return 0
@@ -227,6 +227,20 @@ def haveInmediates(operation):
         return True
     else:
         return False
+
+#Función que verifica las intrucciones de memoria
+def checkMemoryOperation(data):
+    firstPart = data[0:2]
+    middlePart = data[2:-1]
+    lastPart = data[-1]
+    if (checkRegister(middlePart) == True) and (firstPart == 'O(') and (lastPart == ')'):
+        return True
+    else:
+        return False
+
+#Función que retorna un registro en una instrucción de memoria
+def getRegisterMem(data):
+    return data[2:-1]
 
 #Función que verifica si una instrucción tiene una sintáxis correcta y genera el bitstream
 def parseInstruction(instruction):
@@ -260,6 +274,7 @@ def parseInstruction(instruction):
                     registerCounter -= 1
                     print("Parsed register " + i + ": " + parseRegister(i))
                     print ("Expected registers left: " + str(registerCounter))
+                
                 else:
                     print ("ERROR: valid register value expected")
                     bitstreamOk = False
@@ -268,6 +283,7 @@ def parseInstruction(instruction):
                 print ("Inmediate value: " + inmediateValue)
                 bitstream = bitstream + ' ' + inmediateValue
                 flagInmediate = False
+            
             #caso para los jumps
             #elif 
                
@@ -279,7 +295,21 @@ def parseInstruction(instruction):
         return bitstream + ' 0'
 
     return bitstream
+
+#Función que genera el archivo bin de salida con las instrucciones parseadas
+def createBinary():
+    parsedBinaryData = ''
+    print("Creating binary file")
+    for i in instructionsList:
+        #print(i)
+        #print (parseInstruction(instructionToList(i)))
+        parsedBinaryData = parsedBinaryData + parseInstruction(instructionToList(i))
+    file = open("instructions.bin", "wb")
+    file.write(b"parsedBinaryData")
+    file.close()
+    print("....................................")
     
 #print (parseInstruction(['AND', 'R1', 'R25' , 'R19']))
-#readFile()
-#deleteEndOfLine()
+readFile()
+deleteEndOfLine()
+createBinary()
