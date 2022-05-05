@@ -6,6 +6,7 @@ memoryOpList = ['LDR', 'LDA', 'STR']
 jumpOpList = ['JMP', 'JEQ', 'JNEQ', 'JGT', 'JGE', 'JLT', 'JLE']
 registersList = ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', 'R10', 'R11', 'R12', 'R13', 'R14', 'R15', 'R16', 'R17', 'R18', 'R19', 'R20', 'R21', 'R22', 'R23', 'R24', 'R25', 'R26', 'R27', 'R28', 'R29', 'R30', 'R31']
 instructionsList = []
+instructionLines = {}
 bitstreamLen = 20
 
 #Función principal que se encarga de leer el archivo con las intrucciones y las almacena en una lista
@@ -242,14 +243,22 @@ def checkMemoryOperation(data):
 def getRegisterMem(data):
     return data[2:-1]
 
+#Función que busca el número de línea de una branch
+def getBranchLine(branch):
+    for index, key in enumerate(instructionLines):
+        if  instructionLines[index] == branch:
+            return index
+
+
 #Función que verifica si una instrucción tiene una sintáxis correcta y genera el bitstream
-def parseInstruction(instruction):
+def parseInstruction(instruction, line):
     bitstreamOk = True
     bitstream = ''
     opType = ''
     flagOperation = False
     flagInmediate = False
     flagData = False
+    flagIsBranch = False
     registerCounter = 0
     for i in instruction:
         dataType = checkOperationType(i)
@@ -285,12 +294,20 @@ def parseInstruction(instruction):
                 flagInmediate = False
             
             #caso para los jumps
-            #elif 
-               
+            #elif
+        elif (dataType == 5) and (flagOperation == False):
+            instructionLines[line] = i
+            flagIsBranch = True
+            break
+
+        #Caso para añadir una branch       
         else:
             print ("ERROR: wrong instruction syntax")
             bitstreamOk = False
 
+    if flagIsBranch == True:
+        return False
+    
     if flagData == True:
         return bitstream + ' 0'
 
@@ -298,18 +315,25 @@ def parseInstruction(instruction):
 
 #Función que genera el archivo bin de salida con las instrucciones parseadas
 def createBinary():
+    line = 0
     parsedBinaryData = ''
     print("Creating binary file")
     for i in instructionsList:
         #print(i)
         #print (parseInstruction(instructionToList(i)))
-        parsedBinaryData = parsedBinaryData + parseInstruction(instructionToList(i))
+        temp = parseInstruction(instructionToList(i), line)
+        if temp != False:
+            parsedBinaryData = parsedBinaryData + temp
+            line += 1
+        else:
+            line += 1
     file = open("instructions.bin", "wb")
     file.write(b"parsedBinaryData")
     file.close()
     print("....................................")
-    
+
+
 #print (parseInstruction(['AND', 'R1', 'R25' , 'R19']))
-readFile()
-deleteEndOfLine()
-createBinary()
+#readFile()
+#deleteEndOfLine()
+#createBinary()
