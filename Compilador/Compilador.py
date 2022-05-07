@@ -1,13 +1,12 @@
 import os
 
 arithmeticOpList = ['ADD', 'ADDI', 'SUB', 'SUBI', 'MUL', 'MULI', 'MOV', 'MOVI']
-logicOpList = ['AND', 'ANDI', 'OR', 'ORI', 'XOR', 'NOT', 'CMP']
+logicOpList = ['AND', 'ANDI', 'OR', 'ORI', 'XOR', 'NOT']
 memoryOpList = ['LDR', 'LDA', 'STR']
 jumpOpList = ['JMP', 'JEQ', 'JNEQ', 'JGT', 'JGE', 'JLT', 'JLE']
 registersList = ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', 'R10', 'R11', 'R12', 'R13', 'R14', 'R15', 'R16', 'R17', 'R18', 'R19', 'R20', 'R21', 'R22', 'R23', 'R24', 'R25', 'R26', 'R27', 'R28', 'R29', 'R30', 'R31']
 instructionsList = []
 instructionLines = {}
-bitstreamLen = 20
 
 #Función principal que se encarga de leer el archivo con las intrucciones y las almacena en una lista
 def readFile():
@@ -18,7 +17,6 @@ def readFile():
     global instructionsList
     for row in file.readlines():
         tempList = tempList + [row]
-        #print (row)
     instructionsList = tempList
     print("Instructions read")
     print(instructionsList)
@@ -121,8 +119,6 @@ def parseOperation(operation):
         return '010100'
     if operation == 'NOT':
         return '010101'
-    if operation == 'CMP':
-        return '010110'
     if operation == 'LDR':
         return '100000'
     if operation == 'LDA':
@@ -211,11 +207,26 @@ def parseRegister(register):
     if register == 'R31':
         return '11111'
 
+#Función que parsea las condiciones de los jumps a binario
+def parseCond(jump):
+    if jump == 'JEQ':
+        return '001'
+    if jump == 'JNEQ':
+        return '010'
+    if jump == 'JGT':
+        return '011'
+    if jump == 'JGE':
+        return '100'
+    if jump == 'JLT':
+        return '101'
+    if jump == 'JLE':
+        return '110'
+
 #Función que indica cuántos registros utiliza una instrucción
 def getNumberOfRegisters(operation):
-    if operation == 'ADD' or operation == 'SUB' or operation == 'MUL' or operation == 'AND' or operation == 'OR' or operation == 'XOR' or operation == 'CMP':
+    if operation == 'ADD' or operation == 'SUB' or operation == 'MUL' or operation == 'AND' or operation == 'OR' or operation == 'XOR':
         return 3
-    elif operation == 'ADDI' or operation == 'SUBI' or operation == 'MULI' or operation == 'MOV' or operation == 'ANDI' or operation == 'ORI' or operation == 'NOT' or operation == 'LDR' or operation == 'LDA' or operation == 'STR' :
+    elif operation == 'ADDI' or operation == 'SUBI' or operation == 'MULI' or operation == 'MOV' or operation == 'ANDI' or operation == 'ORI' or operation == 'NOT' or operation == 'LDR' or operation == 'LDA' or operation == 'STR' or operation == 'JEQ' or operation == 'JNE' or operation == 'JGE' or operation == 'JG' or operation == 'JLE' or operation == 'JL' :
         return 2
     elif operation == 'MOVI':
         return 1
@@ -229,16 +240,6 @@ def haveInmediates(operation):
     else:
         return False
 
-#Función que verifica las intrucciones de memoria
-def checkMemoryOperation(data):
-    firstPart = data[0:2]
-    middlePart = data[2:-1]
-    lastPart = data[-1]
-    if (checkRegister(middlePart) == True) and (firstPart == 'O(') and (lastPart == ')'):
-        return True
-    else:
-        return False
-
 #Función que retorna un registro en una instrucción de memoria
 def getRegisterMem(data):
     return data[2:-1]
@@ -246,9 +247,16 @@ def getRegisterMem(data):
 #Función que busca el número de línea de una branch
 def getBranchLine(branch):
     for index, key in enumerate(instructionLines):
-        if  instructionLines[index] == branch:
-            return index
+        if  instructionLines[key] == branch:
+            return key
 
+#Función que extrae el registro de un offset
+def getOffsetRegister(data):
+    return data[2:-1]
+
+#Función que extrae el registro de un offset
+def getOffsetValue(data):
+    return int(data[:-4])
 
 #Función que verifica si una instrucción tiene una sintáxis correcta y genera el bitstream
 def parseInstruction(instruction, line):
@@ -259,6 +267,10 @@ def parseInstruction(instruction, line):
     flagInmediate = False
     flagData = False
     flagIsBranch = False
+    flagJump = False
+    flagMem = False
+    jumpType = ''
+    memType = ''
     registerCounter = 0
     for i in instruction:
         dataType = checkOperationType(i)
@@ -266,35 +278,97 @@ def parseInstruction(instruction, line):
         if (dataType != 5) and (flagOperation == False):
             opType = i
             print ("Operation detected: " + opType)
-            flagOperation = True
-            flagInmediate = haveInmediates(i)
-            print ("Inmediate value expected: " + str(flagInmediate))
-            registerCounter = getNumberOfRegisters(i)
-            print ("Registers expected: " + str(registerCounter))
-            bitstream = parseOperation(i)
-            print ("Parsed operation: " + bitstream)
-            if registerCounter == 3:
-                flagData = True
+            if dataType == 3:
+                memType = opType
+                flagOperation = True
+                flagMem = True
+                registerCounter = 2
+                bitstream = parseOperation(i)
+                print ("Parsed operation: " + bitstream)
+            elif dataType == 4:
+                jumpType = opType
+                flagJump = True
+                flagOperation = True
+                registerCounter = 2
+                bitstream = parseOperation(i)
+                print ("Parsed operation: " + bitstream)
+            else:
+                flagOperation = True
+                flagInmediate = haveInmediates(i)
+                print ("Inmediate value expected: " + str(flagInmediate))
+                registerCounter = getNumberOfRegisters(i)
+                print ("Registers expected: " + str(registerCounter))
+                bitstream = parseOperation(i)
+                print ("Parsed operation: " + bitstream)
+                if registerCounter == 3 or opType == 'MOV' or opType == 'MOVI' or opType == 'NOT':
+                    flagData = True
+        elif flagJump == True:
+            if jumpType == 'JMP':
+                line = getBranchLine(i)
+                bitstream = bitstream +intToBinary(line, 20)
+                print ("Parsed operation: " + bitstream)
+                break
+            else:
+                if registerCounter != 0:
+                    if (checkRegister(i) == True):
+                        print ("Register " + i + ": Correct")
+                        bitstream = bitstream + parseRegister(i)
+                        registerCounter -= 1
+                        print("Parsed register " + i + ": " + parseRegister(i))
+                        print ("Expected registers left: " + str(registerCounter))
+                    else:
+                        print ("ERROR: valid register value expected")
+                        bitstreamOk = False  
+                else:
+                    line = getBranchLine(i)
+                    bitstream = bitstream + intToBinary(line, 10) + parseCond(jumpType)
+                    print ("Parsed operation: " + bitstream)
+        elif flagMem == True:
+            if registerCounter == 2:
+                if checkRegister(i) == True:
+                    print ("Register " + i + ": Correct")
+                    bitstream = bitstream + parseRegister(i)
+                    registerCounter -= 1
+                    print("Parsed register " + i + ": " + parseRegister(i))
+                    print ("Expected registers left: " + str(registerCounter))
+                else:
+                    print ("ERROR: valid register value expected")
+                    bitstreamOk = False      
+            else:
+                if checkRegister(getOffsetRegister(i)) == True:
+                    print ("Register " + i + ": Correct")
+                    reg = getOffsetRegister(i)
+                    offset = getOffsetValue(i)
+                    print ("Register " + reg + ": Correct")
+                    print ("Offset " + str(offset) + ": Correct")
+                    bitstream = bitstream + parseRegister(reg) + intToBinary(offset, 10)
+                else:
+                    print ("ERROR: valid register value expected")
+                    bitstreamOk = False   
+
         elif (dataType == 5) and (flagOperation == True):
             if registerCounter != 0:
                 if (checkRegister(i) == True):
                     print ("Register " + i + ": Correct")
-                    bitstream = bitstream + ' ' + parseRegister(i)
+                    bitstream = bitstream +parseRegister(i)
                     registerCounter -= 1
                     print("Parsed register " + i + ": " + parseRegister(i))
-                    print ("Expected registers left: " + str(registerCounter))
-                
+                    print ("Expected registers left: " + str(registerCounter))                
                 else:
                     print ("ERROR: valid register value expected")
                     bitstreamOk = False
             if (flagInmediate == True) and (checkInmediate(i) == True):
-                inmediateValue = intToBinary(int(i), 5)
-                print ("Inmediate value: " + inmediateValue)
-                bitstream = bitstream + ' ' + inmediateValue
-                flagInmediate = False
-            
-            #caso para los jumps
-            #elif
+                if opType == 'MOVI':
+                    inmediateValue = intToBinary(int(i), 15)
+                    print ("Inmediate value: " + inmediateValue)
+                    bitstream = bitstream + inmediateValue
+                    flagInmediate = False
+                    flagData = False
+                else:
+                    inmediateValue = intToBinary(int(i), 10)
+                    print ("Inmediate value: " + inmediateValue)
+                    bitstream = bitstream + inmediateValue
+                    flagInmediate = False
         elif (dataType == 5) and (flagOperation == False):
             instructionLines[line] = i
             flagIsBranch = True
@@ -305,11 +379,14 @@ def parseInstruction(instruction, line):
             print ("ERROR: wrong instruction syntax")
             bitstreamOk = False
 
-    if flagIsBranch == True:
+    if flagIsBranch == True:#Aquí se puede agregar el salto del espacio en blanco
         return False
     
     if flagData == True:
-        return bitstream + ' 0'
+        if (opType == 'ADD') or (opType == 'SUB') or (opType == 'MUL') or (opType == 'AND') or (opType == 'OR') or (opType == 'XOR'):
+            return bitstream + '00000'
+        else:
+            return bitstream + '0000000000'
 
     return bitstream
 
@@ -317,23 +394,22 @@ def parseInstruction(instruction, line):
 def createBinary():
     line = 0
     parsedBinaryData = ''
+    file = open("parsedInst.txt", "a+")
     print("Creating binary file")
     for i in instructionsList:
         #print(i)
         #print (parseInstruction(instructionToList(i)))
-        temp = parseInstruction(instructionToList(i), line)
-        if temp != False:
-            parsedBinaryData = parsedBinaryData + temp
+        parsedBinaryData = parseInstruction(instructionToList(i), line)
+        if parsedBinaryData != False:
+            file.write(parsedBinaryData + "\n")
             line += 1
+            print("Parsed instruction: " + parsedBinaryData)
         else:
             line += 1
-    file = open("instructions.bin", "wb")
-    file.write(b"parsedBinaryData")
     file.close()
     print("....................................")
 
-
-#print (parseInstruction(['AND', 'R1', 'R25' , 'R19']))
-#readFile()
-#deleteEndOfLine()
-#createBinary()
+#print (parseInstruction(['OR', 'R0', 'R1',' ],0))
+readFile()
+deleteEndOfLine()
+createBinary()
