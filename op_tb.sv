@@ -16,9 +16,7 @@ module op_tb();
 	#40
 	
 	srcA=32'd1;
-	srcB=	32'd1;;
-
-
+	srcB=	32'd1;
 
 	
 	end

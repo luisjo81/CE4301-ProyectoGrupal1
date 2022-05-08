@@ -1,4 +1,4 @@
-module add_op #(parameter N=32)
+module xor_op #(parameter N=32)
 (
   input logic [N-1:0] a,
   input logic [N-1:0] b,
@@ -6,6 +6,6 @@ module add_op #(parameter N=32)
  // output logic [3:0] flags
 );
 	 
-	 	assign result = a + b;
+	 	assign result = a ^ b;
 
 endmodule 
