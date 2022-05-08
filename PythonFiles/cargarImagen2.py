@@ -30,3 +30,26 @@ np.savetxt(fname="imagenBinarizada.txt", X= data, delimiter=",", newline="\n", f
 # data.tofile(fid="./imagenBinarizada.txt")
 
 # np.save("imagenBinarizada2.txt", data)
+
+def imgToMemory(data):
+    n = len(data)
+    file = open("..\Rom_data.mif", "w")
+    file.write("WIDTH=32;\n")
+    file.write("DEPTH=2048;\n")
+    file.write("ADDRESS_RADIX=UNS;\n")
+    file.write("DATA_RADIX=UNS;\n")
+    file.write("CONTENT BEGIN\n")
+    mem_count = 0
+    for i in range(n):
+        print(i)
+        for j in range(n):
+            print(j)
+            print([i][j])
+            print(data[i][j])
+            file.write("    "+str(mem_count)+"    :    "+str(data[i][j])+";\n")
+            mem_count+=1
+        j = 0
+    file.write("    ["+str(mem_count)+"..8191]    :    0;\n")
+    file.write("END;\n")
+
+imgToMemory(data)
