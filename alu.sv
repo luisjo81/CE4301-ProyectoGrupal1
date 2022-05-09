@@ -1,6 +1,6 @@
 module alu #(parameter N=32)
 (
-	input logic [3:0] alu_ctrl,
+	input logic [4:0] alu_ctrl,
 	input logic [N-1:0] src_A,
 	input logic [N-1:0] src_B,
 	output logic [N-1:0] alu_result
@@ -8,30 +8,29 @@ module alu #(parameter N=32)
 );
 
  // Resultados temporales - temp results
-	logic [N-1:0]temp_result_and;
-	logic [N-1:0]temp_result_xor;
-	logic [N-1:0]temp_result_substract;
 	logic [N-1:0]temp_result_add;
-	logic [N-1:0]temp_result_or;
+	logic [N-1:0]temp_result_sub;
+	logic [N-1:0]temp_result_mul;
 	logic [N-1:0]temp_result_move;
+	logic [N-1:0]temp_result_and;
+	logic [N-1:0]temp_result_or;
+	logic [N-1:0]temp_result_xor;
 	logic [N-1:0]temp_result_not;
+	logic [N-1:0]temp_result_ldr;
+	logic [N-1:0]temp_result_str;
+	logic [N-1:0]temp_result_je;
+	logic [N-1:0]temp_result_jne;
+	logic [N-1:0]temp_result_jgt;
+	logic [N-1:0]temp_result_jge;
+	logic [N-1:0]temp_result_jlt;
+	logic [N-1:0]temp_result_jle;
+	
 
 // Flags temporales - temp flags
 /*
 	logic [3:0]temp_flag_and;
-	logic [3:0]temp_flag_xor;
-	logic [3:0]temp_flag_substract;
-	logic [3:0]temp_flag_rev_sub;
-	logic [3:0]temp_flag_add;
-	logic [3:0]temp_flag_compare;
-	logic [3:0]temp_flag_comp_neg;
-	logic [3:0]temp_flag_or;
-	logic [3:0]temp_flag_move;
-	logic [3:0]temp_flag_sll;
-	logic [3:0]temp_flag_srl;
-	logic [3:0]temp_flag_clear; // nand
-	logic [3:0]temp_flag_not;
-	*/
+
+*/
 
 // Variable de resultado final y flag final
 	logic [N-1:0]TRESULT;
@@ -40,13 +39,26 @@ module alu #(parameter N=32)
 
   //"Instancias" de las operaciones 
   
-	and_op AND_OP(src_A, src_B, temp_result_and, temp_flag_and); // AND
-	xor_op XOR_OP(src_A, src_B, temp_result_xor, temp_flag_xor); // XOR
-	sub_op SUB_OP(src_A, src_B, temp_result_substract, temp_flag_substract); // SUB
-	add_op ADD_OP(src_A, src_B, temp_result_add, temp_flag_add); // ADD
-	or_op OR_OP(src_A, src_B, temp_result_or, temp_flag_or); // OR
-	move_op MOVE_OP(src_B, temp_result_move, temp_flag_move); // MOVE
-	not_op NOT_OP(src_A, temp_result_not, temp_flag_not); // NOT
+	add_op ADD_OP(src_A, src_B, temp_result_add); // ADD
+	sub_op SUB_OP(src_A, src_B, temp_result_sub); // SUB
+	mult_op MUL_OP(src_A, src_B, temp_result_mul); //MUL
+	move_op MOVE_OP(src_A, temp_result_move);//MOVE
+	and_op AND_OP(src_A, src_B, temp_result_and);//AND
+	or_op OR_OP(src_A, src_B, temp_result_or);//OR
+	xor_op XOR_OP(src_A, src_B, temp_result_xor);//XOR
+	not_op NOT_OP(src_A, temp_result_not);//NOT
+	//MEM ?
+	add_op LDR_OP(src_A, src_B, temp_result_ldr); // ADD LDR
+	add_op STR_OP(src_A, src_B, temp_result_str); // ADD STR
+	je_op JE_OP(src_A, temp_result_je);//JEQ
+	jne_op JNE_OP(src_A, temp_result_jne);//JNE
+	jgt_op JGT_OP(src_A, temp_result_jgt);//JGT
+	jge_op JGE_OP(src_A, temp_result_jge);//JGE
+	jlt_op JLT_OP(src_A, temp_result_jlt);//JLT
+	jle_op JLE_OP(src_A, temp_result_jle);//JLE
+	
+	
+	
 
   
     always @(*) //cualquier cambio que haya en las entradas, haga tal vara
@@ -54,35 +66,69 @@ module alu #(parameter N=32)
       begin	
 
         case (alu_ctrl)
-          0 : begin 
-				   TRESULT = temp_result_and;
-				   //TFLAGS = temp_flag_and;
+          1 : begin 
+				   TRESULT = temp_result_add;
 				  end
 
-          1 : begin 
-				   TRESULT = temp_result_xor;
-				   //TFLAGS = temp_flag_xor;
+          2 : begin 
+				   TRESULT = temp_result_sub;
 				  end
 		
-          2 : begin 
-				   TRESULT = temp_result_substract;
-				   //TFLAGS = temp_flag_substract;
-				  end
-
           3 : begin 
-				   TRESULT = temp_result_add;
-				   //TFLAGS = temp_flag_add;
+				   TRESULT = temp_result_mul;
 				  end
 
           4 : begin 
 				   TRESULT = temp_result_move;
-				   //TFLAGS = temp_flag_move;
 				  end
 
-          5 : begin 
+          9 : begin 
+				   TRESULT = temp_result_and;
+				  end
+
+          10 : begin 
+				   TRESULT = temp_result_or;
+				  end
+				  
+          11 : begin 
+				   TRESULT = temp_result_xor;
+				  end	
+				  
+          12 : begin 
 				   TRESULT = temp_result_not;
-				   //TFLAGS = temp_flag_not;
-				  end			  
+				  end
+				  
+			 17 : begin 
+				   TRESULT = temp_result_ldr;
+				  end	
+				  				  
+			 19 : begin 
+				   TRESULT = temp_result_str;
+				  end	
+			
+			 25 : begin 
+				   TRESULT = temp_result_je;
+					end
+					
+			 26 : begin 
+				   TRESULT = temp_result_jqe;
+					end
+					
+			 27 : begin 
+				   TRESULT = temp_result_jgt;
+					end
+			
+			 28 : begin 
+				   TRESULT = temp_result_jge;
+					end
+					
+			 29 : begin 
+				   TRESULT = temp_result_jlt;
+					end
+					
+			 30 : begin 
+				   TRESULT = temp_result_jle;
+					end
 
 			 default : begin 
 				   TRESULT = 32'd0;

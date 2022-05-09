@@ -1,4 +1,4 @@
-module sub_op #(parameter N=32)
+module jle_op #(parameter N=32)
 (
   input logic [N-1:0] a,
   input logic [N-1:0] b,
@@ -6,6 +6,6 @@ module sub_op #(parameter N=32)
   //output logic [3:0] flags
 );
 
-  assign result = a - b;
-  
-endmodule
+  assign result = a <= b;
+
+endmodule 
