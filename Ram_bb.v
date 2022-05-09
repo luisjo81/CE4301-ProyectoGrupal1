@@ -32,7 +32,7 @@
 //refer to the applicable agreement for further details, at
 //https://fpgasoftware.intel.com/eula.
 
-module Ram (
+module Ram_bb (
 	address,
 	clock,
 	data,

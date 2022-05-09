@@ -32,7 +32,7 @@
 //refer to the applicable agreement for further details, at
 //https://fpgasoftware.intel.com/eula.
 
-module Rom (
+module Rom_bb (
 	address,
 	clock,
 	q);

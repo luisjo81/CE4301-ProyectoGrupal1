@@ -18,7 +18,7 @@ end
 always@(negedge clk) 
 	begin
 		if(we_RF)
-			registerBank [RD] = WD3;
+			registerBank [A3] = WD3;
 	end
 		
 endmodule
