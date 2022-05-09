@@ -1,6 +1,6 @@
 module alu #(parameter N=32)
 (
-	input logic [5:0] alu_ctrl,
+	input logic [4:0] alu_ctrl,
 	input logic [N-1:0] src_A,
 	input logic [N-1:0] src_B,
 	output logic [N-1:0] alu_result
@@ -32,12 +32,12 @@ module alu #(parameter N=32)
   
 	add_op ADD_OP(src_A, src_B, temp_result_add); // ADD
 	sub_op SUB_OP(src_A, src_B, temp_result_sub); // SUB
-	mul_op MUL_OP(src_A, src_B, temp_result_mul); //MUL
-	move_op MOVE_OP(src_A, src_B, temp_result_move);//MOVE
+	mult_op MUL_OP(src_A, src_B, temp_result_mul); //MUL
+	move_op MOVE_OP(src_A, temp_result_move);//MOVE
 	and_op AND_OP(src_A, src_B, temp_result_and);//AND
-	or_op OR_OP(src_A, src_B, temp_result_or;//OR
-	xor_op XOR_OP(src_A, src_B, temp_result_xor;//XOR
-	not_op NOT_OP(src_A, src_B, temp_result_not);//NOT
+	or_op OR_OP(src_A, src_B, temp_result_or);//OR
+	xor_op XOR_OP(src_A, src_B, temp_result_xor);//XOR
+	not_op NOT_OP(src_A, temp_result_not);//NOT
 	
 	
 	

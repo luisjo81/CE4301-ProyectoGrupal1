@@ -8,7 +8,7 @@ module alu_tb();
 	logic [3:0] alu_flags;
 
 	
-	alu ALU_TB(alu_ctrl,srcA,srcB,result,alu_flags);
+	alu ALU_TB(alu_ctrl,srcA,srcB,result);
 	
 	initial begin
 	#40

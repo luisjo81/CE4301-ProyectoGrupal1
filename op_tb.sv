@@ -6,8 +6,8 @@ module op_tb();
 	logic [31:0] result;
 
 	
-	jeq_op JEQ_TB(srcA,srcB,result);
-	//jge_op JGE_TB(srcA,srcB,result);
+	//je_op JEQ_TB(srcA,srcB,result);
+	jgt_op JG_TB(srcA,srcB,result);
 	
 	
 	initial begin

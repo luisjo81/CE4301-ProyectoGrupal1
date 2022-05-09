@@ -6,6 +6,6 @@ module sub_op #(parameter N=32)
   //output logic [3:0] flags
 );
 
-  assign result = a + b;
+  assign result = a - b;
   
 endmodule
