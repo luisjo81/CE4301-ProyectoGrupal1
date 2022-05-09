@@ -6,5 +6,6 @@ simulation/
 *.bak
 *.rpt
 *.qsf
+*.qws
 *.done
 *.summary

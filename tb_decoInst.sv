@@ -1,18 +1,47 @@
 module tb_decoInst();
 
 logic [25:0] inst;
-logic opcode;
+logic [5:0]opcode;
 logic clk = 0;
+logic [4:0] rd;
+logic [4:0] rn;
+logic [4:0] rm;
+logic [9:0] imm10; 
+logic [14:0] imm15; 
+logic [19:0] imm20;
 
-decoInst decoInst (.clk(clk), .inst(inst), .opcode(opcode));
+decoInst decoInst (
+					.clk(clk), 
+					.inst(inst), 	
+					.opcode(opcode), 
+					.rd(rd),
+					.rn(rn),
+					.rm(rm),
+					.imm10(imm10), 
+					.imm15(imm15), 
+					.imm20(imm20));
 
-always #10 clk = ~clk;
+always #5 clk = ~clk;
 
 initial
-begin
+	begin
 
-inst = 26'b00000000000000000000000011;
+	inst = 26'b00000000000000100001100000; #10;
+	inst = 26'b00000100000000100000001111; #10;
+	inst = 26'b00001000000000100001100000; #10;
+	inst = 26'b00001100000000100000001111; #10;
+	inst = 26'b00010000000000100001100000; #10;
+	inst = 26'b00010100000000100000000011; #10;
+	inst = 26'b00011000000000100000000000; #10;
+	inst = 26'b00011100000000000000000011; #10;
+	inst = 26'b01000000000000100001100000; #10;
+	inst = 26'b01000100000000100000000011; #10;
+	inst = 26'b01001000000000100001100000; #10;
+	inst = 26'b01001100000000100000000011; #10;
+	inst = 26'b01010000000000100001100000; #10;
+	inst = 26'b01010100000000100000000000; #10;
+	inst = 26'b11000000000000000000001000; #10;
+	inst = 26'b10000000000001100000000101; #10;
 
-end
-
+	end
 endmodule 
