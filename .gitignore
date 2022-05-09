@@ -7,3 +7,5 @@ simulation/
 *.rpt
 *.qsf
 *.qws
+*.done
+*.summary
