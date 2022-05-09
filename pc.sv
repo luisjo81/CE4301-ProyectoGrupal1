@@ -1,3 +1,5 @@
+`timescale 1 ps / 1 ps
+
 module pc #(parameter N=16)
 (
 	input logic clk,
@@ -8,7 +10,7 @@ module pc #(parameter N=16)
 );
 
 		always_ff @ (negedge clk or posedge rst)
-			if(rst) pc_count = 16'd0;
+			if(rst) pc_count = 16'b0;
 			else
 				if(en) pc_count = new_pc;
 
