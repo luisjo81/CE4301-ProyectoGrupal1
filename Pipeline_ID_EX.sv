@@ -1,6 +1,6 @@
 module Pipeline_ID_EX(input clk, rst,
 					  input logic [15:0] pc_count,
-					  input logic [25:0] RD1, RD2, signImm	
+					  input logic [25:0] RD1, RD2, signImm,	
 					  input logic [25:0] registerBank[12:0],
 					  output logic [15:0] pc_count_new,
 					  output logic [25:0] RD1_new, RD2_new, signImm_new,	

@@ -9,9 +9,12 @@ module pc #(parameter N=16)
 	output logic [N-1:0] pc_count
 );
 
+
+		
 		always_ff @ (negedge clk or posedge rst)
 			if(rst) pc_count = 16'b0;
 			else
-				if(en) pc_count = new_pc;
-
+//				if(en) pc_count = new_pc;
+				pc_count = pc_count+1;
+	
 endmodule
