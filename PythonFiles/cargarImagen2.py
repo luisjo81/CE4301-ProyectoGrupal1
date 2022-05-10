@@ -43,7 +43,7 @@ def imgToMemory(data):
     for i in range(n * n):
         file.write("    "+str(mem_count)+"    :    "+str(data.item(i))+";\n")
         mem_count+=1
-    file.write("    ["+str(mem_count)+"..8191]    :    0;\n")
+    file.write("    ["+str(mem_count)+"..8091]    :    0;\n")
     file.write("END;\n")
 
 imgToMemory(data)
