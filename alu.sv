@@ -111,7 +111,7 @@ module alu #(parameter N=32)
 					end
 					
 			 26 : begin 
-				   TRESULT = temp_result_jqe;
+				   TRESULT = temp_result_jne;
 					end
 					
 			 27 : begin 
