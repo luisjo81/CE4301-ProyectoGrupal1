@@ -1,17 +1,17 @@
-module Register_Memory(clk, rst, we_RF, A1, A2, A3, WD3, RD1, RD2, registerBank);
+module registerMemory(clk, rst, we_RF, A1, A2, A3, WD3, RD1, RD2, registerBank);
 
 input logic rst, clk, we_RF;
 input logic [4:0] A1, A2, A3;
-input logic [25:0] WD3;
-output logic [25:0] RD1, RD2;
+input logic [31:0] WD3;
 
-output logic [25:0] registerBank[12:0];
+output logic [31:0] RD1, RD2;
+output logic [31:0] registerBank[31:0];
 
 always@(posedge clk) 
 	begin
 		if(!we_RF) begin
-			RD1 = A1;
-			RD2 = A2;
+			RD1 = registerBank [A1];
+			RD2 = registerBank [A2];
 	end
 end
 
