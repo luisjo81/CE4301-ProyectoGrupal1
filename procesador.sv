@@ -26,7 +26,7 @@ Pipeline_IF_ID pipelineFetch (.clk(clk), .rst(rst), .q(inst),
 //:::: 
 
 //Modulo del decodificador
-decoInst decoInst_m (.clk(clk), .inst(inst), .opcode(opcode), .rd(rd), .rn(rn), 
+decoInst decoInst_m (.clk(clk), .inst(inst_new), .opcode(opcode), .rd(rd), .rn(rn), 
 							.rm(rm), .imm10(imm10), .imm15(imm15), .imm20(imm20));
 
 logic [31:0] WD3;
