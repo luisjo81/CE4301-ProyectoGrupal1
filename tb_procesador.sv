@@ -1,7 +1,7 @@
 `timescale 1 ps / 1 ps
 
 
-module tb_decoInst();
+module tb_procesador();
 
 logic [25:0] inst, inst_new;
 logic [5:0]opcode;
@@ -21,6 +21,8 @@ Rom mem(pc_count, clk, inst);
 pc cont(clk, rst, en, new_pc, pc_count);
 		
 Pipeline_IF_ID pipelineFetch(clk, rst, inst, pc_count, inst_new, pc_count_new);
+
+
 
 always #5 clk = ~clk;
 
