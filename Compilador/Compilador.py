@@ -94,39 +94,39 @@ def parseOperation(operation):
     if operation == 'ADD':
         return '000000'
     if operation == 'ADDI':
-        return '000001'
+        return '001001'
     if operation == 'SUB':
         return '000010'
     if operation == 'SUBI':
-        return '000011'
+        return '001010'
     if operation == 'MUL':
-        return '000100'
+        return '000011'
     if operation == 'MULI':
-        return '000101'
+        return '001011'
     if operation == 'MOV':
-        return '000110'
+        return '000100'
     if operation == 'MOVI':
-        return '000111'
+        return '001100'
     if operation == 'AND':
-        return '010000'
-    if operation == 'ANDI':
         return '010001'
+    if operation == 'ANDI':
+        return '011001'
     if operation == 'OR':
         return '010010'
     if operation == 'ORI':
-        return '010011'
+        return '011010'
     if operation == 'XOR':
-        return '010100'
+        return '010011'
     if operation == 'NOT':
-        return '010101'
+        return '010100'
     if operation == 'LDR':
-        return '100000'
-    if operation == 'LDA':
         return '100001'
-    if operation == 'STR':
+    if operation == 'LDA':
         return '100010'
+    if operation == 'STR':
+        return '100011'
     if operation == 'JMP':
-        return '110000'
+        return '111000'
     if operation == 'JEQ':
         return '110001'
     if operation == 'JNEQ':
