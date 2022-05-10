@@ -1,5 +1,5 @@
 module Pipeline_MEM_WB(input logic clk, rst, input logic[7:0] data, input logic [25:0] WD3, 
-							output logic clk_new, rst_new, output logic[7:0] data, output logic [25:0] WD3);
+							output logic clk_new, rst_new, output logic[7:0] data_new, output logic [25:0] WD3_new);
 
 always_ff @(posedge clk or posedge rst)
 			if(rst) begin
