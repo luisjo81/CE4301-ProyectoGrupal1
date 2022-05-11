@@ -1,9 +1,9 @@
-module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src, reg_write);
+module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src, reg_write, alu_src);
 
 	input logic [5:0] opcode;
 	output logic [1:0] imm_src;
 	output logic [4:0] alu_control;
-	output logic pc_src, mem_to_reg, mem_write, reg_write;
+	output logic pc_src, mem_to_reg, mem_write, reg_write, alu_src;
 
 	always @*
 	case(opcode)
@@ -16,6 +16,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
+			alu_src = 1'b0;
 			end
 		//ADDI
 		6'b001001:
@@ -26,6 +27,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
+			alu_src = 1'b1;
 			end
 		//SUB
 		6'b000010:
@@ -36,6 +38,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
+			alu_src = 1'b0;
 			end
 		//SUBI
 		6'b001010:
@@ -46,6 +49,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
+			alu_src = 1'b1;
 			end
 		//MUL
 		6'b000011:
@@ -56,6 +60,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
+			alu_src = 1'b0;
 			end
 		//MULI
 		6'b001011:
@@ -66,6 +71,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
+			alu_src = 1'b1;
 			end
 		//MOV
 		6'b000100:
@@ -76,6 +82,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
+			alu_src = 1'b0;
 			end
 		//MOVI
 		6'b001100:
@@ -86,6 +93,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
+			alu_src = 1'b1;
 			end
 		//AND
 		6'b010001:
@@ -96,6 +104,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
+			alu_src = 1'b0;
 			end
 		//ANDI
 		6'b011001:
@@ -106,6 +115,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
+			alu_src = 1'b1;
 			end
 		//OR
 		6'b010010:
@@ -116,6 +126,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
+			alu_src = 1'b0;
 			end
 		//ORI
 		6'b011010:
@@ -126,6 +137,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
+			alu_src = 1'b1;
 			end
 		//XOR
 		6'b010011:
@@ -136,6 +148,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
+			alu_src = 1'b0;
 			end
 		//NOT
 		6'b010100:
@@ -146,9 +159,10 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
+			alu_src = 1'b0;
 			end
 		//LDR
-		6'b100001:
+		6'b101001:
 			begin
 			imm_src = 2'b10;
 			alu_control = 5'b10001;
@@ -156,26 +170,27 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
+			alu_src = 1'b1;
 			end
 		//LDA
-		6'b100010:
+		6'b101010:
 			begin
 			imm_src = 2'b10;
 			alu_control = 5'b10010;
 			mem_to_reg = 1'b0;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
-			pc_src = 1'b0;
+			pc_src = 1'b1;
 			end
 		//STR
-		6'b100011:
+		6'b101011:
 			begin
 			imm_src = 2'b10;
 			alu_control = 5'b10011;
 			mem_to_reg = 1'b0;
 			mem_write = 1'b1;
 			reg_write = 1'b1;
-			pc_src = 1'b0;
+			pc_src = 1'b1;
 			end
 		//JMP
 		6'b111000:
@@ -186,9 +201,10 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b0;
 			pc_src = 1'b1;
+			alu_src = 1'b1;
 			end
 		//JEQ
-		6'b110001:
+		6'b111001:
 			begin
 			imm_src = 2'b11;
 			alu_control = 5'b11001;
@@ -196,9 +212,10 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b0;
 			pc_src = 1'b1;
+			alu_src = 1'b1;
 			end
 		//JNEQ
-		6'b110010:
+		6'b111010:
 			begin
 			imm_src = 2'b11;
 			alu_control = 5'b11010;
@@ -206,9 +223,10 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b0;
 			pc_src = 1'b1;
+			alu_src = 1'b1;
 			end
 		//JGT
-		6'b110011:
+		6'b111011:
 			begin
 			imm_src = 2'b11;
 			alu_control = 5'b11011;
@@ -216,9 +234,10 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b0;
 			pc_src = 1'b1;
+			alu_src = 1'b1;
 			end
 		//JGE
-		6'b110100:
+		6'b111100:
 			begin
 			imm_src = 2'b11;
 			alu_control = 5'b11100;
@@ -226,9 +245,10 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b0;
 			pc_src = 1'b1;
+			alu_src = 1'b1;
 			end
 		//JLT
-		6'b110101:
+		6'b111101:
 			begin
 			imm_src = 2'b11;
 			alu_control = 5'b11101;
@@ -236,9 +256,10 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b0;
 			pc_src = 1'b1;
+			alu_src = 1'b1;
 			end
 		//JLE
-		6'b110110:
+		6'b111110:
 			begin
 			imm_src = 2'b11;
 			alu_control = 5'b11110;
@@ -246,6 +267,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			mem_write = 1'b0;
 			reg_write = 1'b0;
 			pc_src = 1'b1;
+			alu_src = 1'b1;
 			end
 	endcase
 endmodule 
