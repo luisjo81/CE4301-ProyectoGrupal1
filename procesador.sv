@@ -14,6 +14,10 @@ logic [14:0] imm15;
 logic [19:0] imm20;
 logic [15:0] pc_count, new_pc, pc_count_new;
 
+/////>>>>>> Se requiere una bandera para el flag del branc
+
+//mux_32bits pc_sel (.signalA(signalA), .signalB(signalB), .selector(selector), .result(result));
+
 //Modulo del PC
 pc pc_m (.clk(clk), .rst(rst), .en(en), .new_pc(new_pc), .pc_count(pc_count));
 
