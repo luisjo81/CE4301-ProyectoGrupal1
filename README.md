@@ -1,4 +1,4 @@
-# Diseño e Implementación de un ASIP para interpolación de imágenes
+# Diseño e Implementación de un ASIP para Interpolación de Imágenes
 CE4301 Arquitectura de Computadores I 
 
 ## Descripción
@@ -26,7 +26,13 @@ SoC-M TL2.
 - Una vez se haya ejecutado correctamente el compilador, este habrá generado un archivo llamado parsedInst.txt, el cual contiene los bitstreams requeridos por el procesador para hacer los cálculos.  
 
 ## :green_book: Green Card
-A continuación se muestra el Green Card para el ISA propuesto:
+A continuación se muestra el Green Card para el ISA propuesto. El mismo cuenta con tres secciones:
+- La división del bitstream para cada una de las instrucciones.
+![](/Assets/GreenCard1.PNG)
+- Estructura de los bits del opcode para cada instrucción, así como su nombre, estructura y resumen.
+![](/Assets/GreenCard2.PNG)
+- Distribución de los registros con su número, mnemónico y su función.
+![](/Assets/GreenCard3.PNG)
 
 ## :floppy_disk: Instrucciones
 Como se mencionó en la sección de requisitos, se requiere un archivo .txt con las instrucciones a ejecutar. En este caso, las instrucciones son muy específicas, ya que lo que se busca es el correcto procesamiento de la imagen. Se incluye un archivo llamado Instructions.txt, el cual contiene las siguientes instrucciones:
