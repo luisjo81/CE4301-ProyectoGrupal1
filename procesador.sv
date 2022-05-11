@@ -49,8 +49,15 @@ registerMemory registerMemory_m (.clk(clk), .rst(rst), .we_RF(reg_write), .A1(rn
 
 
 //:::::
-//Pipeline_ID_Ex pipelineExecution
+//Pipeline
+//:::::	Entra alu_control sale la senial sostenida								
+alu ALU_TB(.alu_ctrl(alu_control),.srcA(RD1),.srcB(RD2),.result(result));
+
 //:::::
+//Pipeline
+//:::::
+
+//RAM
 
 always #5 clk = ~clk;
 
