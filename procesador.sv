@@ -73,10 +73,11 @@ alu ALU_TB(.alu_ctrl(alu_control_new), .src_A(RD1_new), .src_B(RD_res), .alu_res
 //:::::
 Pipeline_EX_MEM pipelineExecute(.clk(clk), .rst(rst), .mem_to_reg(mem_to_reg_new), mem_write(mem_write_new),
 										.pc_count(pc_count_new2), .RD2(RD_res), .aluResult(alu_Result), 
-										.mem_to_reg_new(mem_to_reg_new2), .mem_write_new(mem_write_new2), 
+										.mem_to_reg_new(mem_to_reg_new2), .mem_write_new(mem_write_new2), .pc_count(pc_count_new3), 
 										.RD2_new(RD_res_new), .aluResult_new(alu_Result_new));
 
 //RAM
+Ram dataMemory_m(.address(pc_count_new3), );
 
 always #5 clk = ~clk;
 
