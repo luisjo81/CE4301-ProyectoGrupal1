@@ -1,6 +1,6 @@
 `timescale 1 ps / 1 ps
 
-module procesador(input logic clk, rst, output logic [31:0] WD3);
+module procesador();
 
 logic clk = 0; 
 logic rst;
@@ -17,7 +17,7 @@ logic [15:0] pc_count, new_pc, pc_count_new, pc_count_new2, pc_count_new3;
 //>>>>>>>>> FETCH >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 //Modulo del PC
-pc pc_m (.clk(clk), .rst(rst), .en(pc_src), .new_pc(new_pc), .pc_count(pc_count));
+pc pc_m (.clk(clk), .rst(rst), .en(pc_src), .pc_branch(new_pc), .pc_count(pc_count));
 
 //Modulo de las instrucciones
 Rom instructionMemory_m (.address(pc_count), .clock(clk), .q(inst));
@@ -63,17 +63,17 @@ extend extender(.imm_src(imm_src), .imm(imm10), .imm2(imm15), .imm3(imm20), .res
 //Pipeline
 Pipeline_ID_EX pipelineDecode(.clk(clk), .rst(rst), .mem_to_reg(mem_to_reg),
 					.mem_write(mem_write), .alu_src(alu_src), .alu_control(alu_control), 
-					.pc_count(pc_count_new), .RD2(RD2), .RD3(RD3), .signImm(extendRes),
+					.pc_count(pc_count_new), .RD1(RD1), .RD2(RD2), .signImm(extendRes),
 					.mem_to_reg_new(mem_to_reg_new), .mem_write_new(mem_write_new), .alu_src_new(alu_src_new),
 					.imm_src_new(imm_src_new), .alu_control_new(alu_control_new), .pc_count_new(pc_count_new2), 
-					.signImm_new(extendRes_new), RD1_new(RD1_new), RD2_new(RD2_new));
+					.RD1_new(RD1_new), .RD2_new(RD2_new), .signImm_new(extendRes_new));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 //>>>>>>>>>> EXECUTE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>			
 					
 //Mux de 32 Bits para las entradas de la ALU
-mux_32bits mux_Reg_Alu(.signalA(RD2_new), .signalB(extendRes_new), .selector(alu_src_new), .result(RD_res))
+mux_32bits mux_Reg_Alu(.signalA(RD2_new), .signalB(extendRes_new), .selector(alu_src_new), .result(RD_res));
 					
 //:::::	Entra alu_control sale la señal sostenida								
 alu ALU_TB(.alu_ctrl(alu_control_new), .src_A(RD1_new), .src_B(RD_res), .alu_result(alu_Result));
@@ -84,9 +84,9 @@ alu ALU_TB(.alu_ctrl(alu_control_new), .src_A(RD1_new), .src_B(RD_res), .alu_res
 //:::::
 //Pipeline
 //:::::
-Pipeline_EX_MEM pipelineExecute(.clk(clk), .rst(rst), .mem_to_reg(mem_to_reg_new), mem_write(mem_write_new),
+Pipeline_EX_MEM pipelineExecute(.clk(clk), .rst(rst), .mem_to_reg(mem_to_reg_new), .mem_write(mem_write_new),
 										.pc_count(pc_count_new2), .RD2(RD_res), .aluResult(alu_Result), 
-										.mem_to_reg_new(mem_to_reg_new2), .mem_write_new(mem_write_new2), .pc_count(pc_count_new3), 
+										.mem_to_reg_new(mem_to_reg_new2), .mem_write_new(mem_write_new2), .pc_count_new(pc_count_new3), 
 										.RD2_new(RD_res_new), .aluResult_new(alu_Result_new));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>										
@@ -101,14 +101,6 @@ initial
 	begin
 	
 		rst = 1'b1; 
-		we_RF = 1;
-		for (int i = 0; i<32; i++)
-			begin
-				WD3 = i;
-				A3 = i;
-				#10;
-			end
-		we_RF = 0;
 		#10;
 		rst = 1'b0;
 
