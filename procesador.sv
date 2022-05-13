@@ -96,6 +96,8 @@ Pipeline_EX_MEM pipelineExecute(.clk(clk), .rst(rst), .mem_to_reg(mem_to_reg_new
 Ram dataMemory_m(.address(alu_Result_new), .clock(clk), .data(RD2_res_new), .wren(mem_write_new2), .q(Mem_Out));
 mux_32bits mux_Mem_WB(.signalA(Mem_Out), .signalB(alu_Result_new), .selector(mem_to_reg_new), .result(WD3));
 
+
+
 always #5 clk = ~clk;
 
 initial
