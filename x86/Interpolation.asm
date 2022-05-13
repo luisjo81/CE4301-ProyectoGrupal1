@@ -95,7 +95,7 @@ _calcPt:
     mov eax,r10d
     add eax,r9d
     mov ecx,3
-    mov r14,-1
+    mov r14,0
     call _div
     mov r15d,r14d
     ;div ecx
@@ -108,6 +108,7 @@ _calcPt:
 _div:
     cmp eax,ZERO
     jg _divAux
+    sub r14d, 1
     ret
 
 _divAux:
