@@ -46,9 +46,9 @@ module Ram (
 
 	input	[13:0]  address;
 	input	  clock;
-	input	[7:0]  data;
+	input	[31:0]  data;
 	input	  wren;
-	output	[7:0]  q;
+	output	[31:0]  q;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
@@ -57,8 +57,8 @@ module Ram (
 // synopsys translate_on
 `endif
 
-	wire [7:0] sub_wire0;
-	wire [7:0] q = sub_wire0[7:0];
+	wire [31:0] sub_wire0;
+	wire [31:0] q = sub_wire0[31:0];
 
 	altsyncram	altsyncram_component (
 				.address_a (address),
