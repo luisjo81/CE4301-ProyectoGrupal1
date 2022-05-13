@@ -1,6 +1,6 @@
 `timescale 1 ps / 1 ps
 
-module pc #(parameter N=16)
+module pc #(parameter N=32)
 (
 	input logic clk,
 	input logic rst,
@@ -13,7 +13,10 @@ module pc #(parameter N=16)
 
 		
 		always_ff @ (negedge clk or posedge rst)
-			if(rst) pc_count = 16'b0;
+			if(rst)
+			begin
+				pc_count = 32'b0;
+			end
 			else
 			begin
 				if(en) pc_count = pc_branch;

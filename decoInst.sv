@@ -18,7 +18,6 @@ module decoInst (
 
 always @ (posedge clk)
 	begin
-	//$display("Instruction: %b", inst[25:24]);
 	case (inst[25:24])
 		2'b00 : 
 			begin
