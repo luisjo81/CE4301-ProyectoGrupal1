@@ -5,6 +5,8 @@ module Pipeline_MEM_WB(
 					input 	logic	reg_write,
 					input 	logic [1:0] men2reg,
 					input 	logic [31:0] signImm,
+					input 	logic [4:0] rd,
+					output 	logic [4:0] rd_new,
 					output 	logic [31:0] signImm_new,
 					output 	logic [1:0] men2reg_new,
 					output	logic reg_write_new,
@@ -17,6 +19,7 @@ always_ff @(posedge clk or posedge rst)
 				data_new = 32'b0;
 				aluRes_new = 32'b0;
 				signImm_new = 32'b0;
+				rd_new = 5'b0;
 			end
 			else begin
 				data_new = data;
@@ -24,6 +27,7 @@ always_ff @(posedge clk or posedge rst)
 				men2reg_new = men2reg;
 				reg_write_new = reg_write;
 				signImm_new = signImm;
+				rd_new = rd;
 			end
 			
 endmodule

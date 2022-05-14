@@ -23,7 +23,7 @@ Pipeline_IF_ID pipelineFetch (.clk(clk), .rst(rst), .q(inst),
 
 //>>>>>>>> DECODE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 logic [5:0]opcode;
-logic [4:0] rd;
+logic [4:0] rd, rd2, rd3, rd4;
 logic [4:0] rn;
 logic [4:0] rm;
 logic [9:0] imm10; 
@@ -52,7 +52,7 @@ logic [31:0] registerBank[31:0], alu_Result, alu_Result_new, alu_Result_new2, RD
 //logic we_RF;
 							
 //Modulo del banco de registros
-registerMemory registerMemory_m (.clk(clk), .rst(rst), .we_RF(reg_write_new3), .A1(rn), .A2(rm), .A3(rd), 
+registerMemory registerMemory_m (.clk(clk), .rst(rst), .we_RF(reg_write_new3), .A1(rn), .A2(rm), .A3(rd4), 
 											.WD3(WD3_new), .RD1(RD1), .RD2(RD2), .registerBank(registerBank));
 
 //Módulo de extensión de signo
@@ -68,7 +68,8 @@ Pipeline_ID_EX pipelineDecode(.clk(clk), .rst(rst), .mem_to_reg(mem_to_reg),
 					.mem_to_reg_new(mem_to_reg_new), .mem_write_new(mem_write_new), .alu_src_new(alu_src_new),
 					.imm_src_new(imm_src_new), .alu_control_new(alu_control_new), .pc_count_new(pc_count_new2), 
 					.RD1_new(RD1_new), .RD2_new(RD2_new), .signImm_new(extendRes_new), 
-					.reg_write(reg_write), .reg_write_new(reg_write_new));
+					.reg_write(reg_write), .reg_write_new(reg_write_new), 
+					.rd(rd),.rd_new(rd2));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -93,7 +94,8 @@ Pipeline_EX_MEM pipelineExecute(.clk(clk), .rst(rst), .mem_to_reg(mem_to_reg_new
 										.mem_to_reg_new(mem_to_reg_new2), .mem_write_new(mem_write_new2), .pc_count_new(pc_count_new3), 
 										.RD2_new(RD_res_new), .aluResult_new(alu_Result_new), 
 										.reg_write(reg_write_new), .reg_write_new(reg_write_new2),
-										.signImm(extendRes_new), .signImm_new(signImm_new));
+										.signImm(extendRes_new), .signImm_new(signImm_new),
+										.rd(rd2),.rd_new(rd3));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>										
 
@@ -111,7 +113,8 @@ Pipeline_MEM_WB pipelineWB (	.clk(clk), .rst(rst), .data(Mem_Out), .aluRes(alu_R
 										.data_new(data_new), .aluRes_new(alu_Result_new2), 
 										.men2reg_new (mem_to_reg_new3), .men2reg(mem_to_reg_new2),
 										.reg_write(reg_write_new2), .reg_write_new(reg_write_new3),
-										.signImm(signImm_new), .signImm_new(signImm_new2));
+										.signImm(signImm_new), .signImm_new(signImm_new2), 
+										.rd(rd3),.rd_new(rd4));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>										
 
