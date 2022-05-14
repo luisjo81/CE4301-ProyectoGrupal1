@@ -1,8 +1,8 @@
 import os
 
-arithmeticOpList = ['ADD', 'ADDI', 'SUB', 'SUBI', 'MUL', 'MULI', 'MOV', 'MOVI']
+arithmeticOpList = ['NOP', 'ADD', 'ADDI', 'SUB', 'SUBI', 'MUL', 'DIV', 'MOV', 'MOVI']
 logicOpList = ['AND', 'ANDI', 'OR', 'ORI', 'XOR', 'NOT']
-memoryOpList = ['LDR', 'LDA', 'STR']
+memoryOpList = ['LDR', 'STR']
 jumpOpList = ['JMP', 'JEQ', 'JNEQ', 'JGT', 'JGE', 'JLT', 'JLE']
 registersList = ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', 'R10', 'R11', 'R12', 'R13', 'R14', 'R15', 'R16', 'R17', 'R18', 'R19', 'R20', 'R21', 'R22', 'R23', 'R24', 'R25', 'R26', 'R27', 'R28', 'R29', 'R30', 'R31']
 instructionsList = []
@@ -91,8 +91,10 @@ intToBinary = lambda x, n: format(x, 'b').zfill(n)
 
 #Función que parsea una operación a binario
 def parseOperation(operation):
-    if operation == 'ADD':
+    if operation == 'NOP':
         return '000000'
+    if operation == 'ADD':
+        return '000001'
     if operation == 'ADDI':
         return '001001'
     if operation == 'SUB':
@@ -101,8 +103,8 @@ def parseOperation(operation):
         return '001010'
     if operation == 'MUL':
         return '000011'
-    if operation == 'MULI':
-        return '001011'
+    if operation == 'DIV':
+        return '001101'
     if operation == 'MOV':
         return '000100'
     if operation == 'MOVI':
@@ -121,8 +123,6 @@ def parseOperation(operation):
         return '010100'
     if operation == 'LDR':
         return '100001'
-    if operation == 'LDA':
-        return '100010'
     if operation == 'STR':
         return '100011'
     if operation == 'JMP':
@@ -226,7 +226,7 @@ def parseCond(jump):
 def getNumberOfRegisters(operation):
     if operation == 'ADD' or operation == 'SUB' or operation == 'MUL' or operation == 'AND' or operation == 'OR' or operation == 'XOR':
         return 3
-    elif operation == 'ADDI' or operation == 'SUBI' or operation == 'MULI' or operation == 'MOV' or operation == 'ANDI' or operation == 'ORI' or operation == 'NOT' or operation == 'LDR' or operation == 'LDA' or operation == 'STR' or operation == 'JEQ' or operation == 'JNE' or operation == 'JGE' or operation == 'JG' or operation == 'JLE' or operation == 'JL' :
+    elif operation == 'ADDI' or operation == 'SUBI' or operation == 'DIV' or operation == 'MOV' or operation == 'ANDI' or operation == 'ORI' or operation == 'NOT' or operation == 'LDR' or operation == 'STR' or operation == 'JEQ' or operation == 'JNE' or operation == 'JGE' or operation == 'JG' or operation == 'JLE' or operation == 'JL' :
         return 2
     elif operation == 'MOVI':
         return 1
@@ -235,7 +235,7 @@ def getNumberOfRegisters(operation):
 
 #Función que indica si la operación tiene un valor inmediato
 def haveInmediates(operation):
-    if operation == 'ADDI' or operation == 'SUBI' or operation == 'MULI' or operation == 'MOVI' or operation == 'ANDI' or operation == 'ORI' or operation == 'LDR' or operation == 'LDA' or operation == 'STR':
+    if operation == 'ADDI' or operation == 'SUBI' or operation == 'DIV' or operation == 'MOVI' or operation == 'ANDI' or operation == 'ORI' or operation == 'LDR' or operation == 'STR':
         return True
     else:
         return False
@@ -278,6 +278,8 @@ def parseInstruction(instruction, line):
         if (dataType != 5) and (flagOperation == False):
             opType = i
             print ("Operation detected: " + opType)
+            if i == 'NOP':
+                return '00000000000000000000000000'
             if dataType == 3:
                 memType = opType
                 flagOperation = True
@@ -409,7 +411,7 @@ def createBinary():
     file.close()
     print("....................................")
 
-#print (parseInstruction(['OR', 'R0', 'R1',' ],0))
+#print (parseInstruction(['NOP'],0))
 readFile()
 deleteEndOfLine()
 createBinary()
