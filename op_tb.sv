@@ -7,18 +7,19 @@ module op_tb();
 
 	
 	//je_op JEQ_TB(srcA,srcB,result);
-	jgt_op JG_TB(srcA,srcB,result);
+	//jgt_op JG_TB(srcA,srcB,result);
+	mult_op Multi(srcA, srcB, result);
 	
 	
 	initial begin
 	#40
 	
-	srcA=32'd3;
+	srcA=32'd10;
 	srcB=32'd5;
 	#40
 	
-	srcA=32'd1;
-	srcB=	32'd1;
+	srcA=32'd17;
+	srcB=	32'd3;
 
 	
 	end

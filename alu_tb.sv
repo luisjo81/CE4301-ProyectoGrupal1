@@ -29,10 +29,17 @@ module alu_tb();
 	srcA=32'd2;
 	srcB=	32'd8;
 	
+	
 	#40
 	
 	alu_ctrl=5'd4;//MOVE
 	srcA=32'd15;
+	
+	#40
+	
+	alu_ctrl=5'd5;//DIV
+	srcA=32'd16;
+	srcB=	32'd4;
 	
 	#40
 	
