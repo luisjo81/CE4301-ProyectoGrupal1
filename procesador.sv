@@ -37,10 +37,10 @@ decoInst decoInst_m (.clk(clk), .inst(inst_new), .opcode(opcode), .rd(rd), .rn(r
 logic mem_to_reg, mem_to_reg_new, mem_to_reg_new2, mem_to_reg_new3;
 logic mem_write, mem_write_new, mem_write_new2;
 logic alu_src, alu_src_new;
-logic reg_write, reg_write_new;
+logic reg_write, reg_write_new, reg_write_new2, reg_write_new3;
 
 logic [1:0] imm_src;
-logic [4:0] alu_control, alu_control_new, reg_write_new2, reg_write_new3;
+logic [4:0] alu_control, alu_control_new;
 		
 		
 Control_Unit CU(.opcode(opcode), .pc_src(pc_src), .mem_to_reg(mem_to_reg),

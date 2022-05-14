@@ -16,7 +16,7 @@ module decoInst (
 	);
 
 
-always @ (posedge clk)
+always @ (negedge clk)
 	begin
 	case (inst[25:24])
 		2'b00 : 
