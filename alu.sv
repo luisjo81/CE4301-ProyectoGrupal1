@@ -11,6 +11,7 @@ module alu #(parameter N=32)
 	logic [N-1:0]temp_result_add;
 	logic [N-1:0]temp_result_sub;
 	logic [N-1:0]temp_result_mul;
+	logic [N-1:0]temp_result_div;
 	logic [N-1:0]temp_result_move;
 	logic [N-1:0]temp_result_and;
 	logic [N-1:0]temp_result_or;
@@ -42,6 +43,7 @@ module alu #(parameter N=32)
 	add_op ADD_OP(src_A, src_B, temp_result_add); // ADD
 	sub_op SUB_OP(src_A, src_B, temp_result_sub); // SUB
 	mult_op MUL_OP(src_A, src_B, temp_result_mul); //MUL
+	div_op DIV_OP(src_A, src_B, temp_result_div); //DIV
 	move_op MOVE_OP(src_A, temp_result_move);//MOVE
 	and_op AND_OP(src_A, src_B, temp_result_and);//AND
 	or_op OR_OP(src_A, src_B, temp_result_or);//OR
@@ -80,6 +82,10 @@ module alu #(parameter N=32)
 
           4 : begin 
 				   TRESULT = temp_result_move;
+				  end
+			 
+			 5 : begin 
+				   TRESULT = temp_result_div;
 				  end
 
           9 : begin 
