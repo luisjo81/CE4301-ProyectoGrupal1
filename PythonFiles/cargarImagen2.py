@@ -31,19 +31,23 @@ np.savetxt(fname="imagenBinarizada.txt", X= data, delimiter=",", newline="\n", f
 
 # np.save("imagenBinarizada2.txt", data)
 
+intToBinary = lambda x, n: format(x, 'b').zfill(n)
+
 def imgToMemory(data):
     n = len(data)
-    file = open("..\Ram_data.mif", "w")
-    file.write("WIDTH=8;\n")
-    file.write("DEPTH=8092;\n")
-    file.write("ADDRESS_RADIX=UNS;\n")
-    file.write("DATA_RADIX=UNS;\n")
-    file.write("CONTENT BEGIN\n")
+    filewrite = open("..\Ram_data.mif", "w")
+    filewrite.write("WIDTH=32;\n")
+    filewrite.write("DEPTH=65536;\n")
+    filewrite.write("ADDRESS_RADIX=UNS;\n")
+    filewrite.write("DATA_RADIX=UNS;\n")
+    filewrite.write("CONTENT BEGIN\n")
     mem_count = 0
     for i in range(n * n):
-        file.write("    "+str(mem_count)+"    :    "+str(data.item(i))+";\n")
+        byteData = intToBinary(data.item(i), 8)
+        filewrite.write("    "+str(mem_count)+"    :    "+str(byteData)+";\n")
         mem_count+=1
-    file.write("    ["+str(mem_count)+"..8091]    :    0;\n")
-    file.write("END;\n")
+    filewrite.write("    ["+str(mem_count)+"..65535]    :    0;\n")
+    filewrite.write("END;\n")
 
 imgToMemory(data)
+
