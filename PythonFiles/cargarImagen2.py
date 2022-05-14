@@ -36,7 +36,7 @@ intToBinary = lambda x, n: format(x, 'b').zfill(n)
 def imgToMemory(data):
     n = len(data)
     filewrite = open("..\Ram_data.mif", "w")
-    filewrite.write("WIDTH=32;\n")
+    filewrite.write("WIDTH=8;\n")
     filewrite.write("DEPTH=65536;\n")
     filewrite.write("ADDRESS_RADIX=UNS;\n")
     filewrite.write("DATA_RADIX=UNS;\n")
