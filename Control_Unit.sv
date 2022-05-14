@@ -1,9 +1,9 @@
 module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src, reg_write, alu_src);
 
 	input logic [5:0] opcode;
-	output logic [1:0] imm_src;
+	output logic [1:0] imm_src, mem_to_reg;
 	output logic [4:0] alu_control;
-	output logic pc_src, mem_to_reg, mem_write, reg_write, alu_src;
+	output logic pc_src, mem_write, reg_write, alu_src;
 
 	always @*
 	case(opcode)
@@ -12,7 +12,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'bxx;
 			alu_control = 5'b00001;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
@@ -23,7 +23,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b00;
 			alu_control = 5'b00001;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
@@ -34,7 +34,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'bxx;
 			alu_control = 5'b00010;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
@@ -45,7 +45,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b00;
 			alu_control = 5'b00010;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
@@ -56,7 +56,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'bxx;
 			alu_control = 5'b00011;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
@@ -67,7 +67,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b00;
 			alu_control = 5'b00011;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
@@ -78,7 +78,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'bxx;
 			alu_control = 5'b00100;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b10;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
@@ -89,7 +89,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b00;
 			alu_control = 5'b00100;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b10;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
@@ -100,7 +100,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'bxx;
 			alu_control = 5'b01001;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
@@ -111,7 +111,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b01;
 			alu_control = 5'b01001;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
@@ -122,7 +122,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'bxx;
 			alu_control = 5'b01010;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
@@ -133,7 +133,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b01;
 			alu_control = 5'b01010;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
@@ -144,7 +144,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'bxx;
 			alu_control = 5'b01011;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
@@ -155,7 +155,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'bxx;
 			alu_control = 5'b01100;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
@@ -166,7 +166,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b10;
 			alu_control = 5'b10001;
-			mem_to_reg = 1'b1;
+			mem_to_reg = 2'b01;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b0;
@@ -177,7 +177,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b10;
 			alu_control = 5'b10010;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b1;
 			pc_src = 1'b1;
@@ -187,7 +187,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b10;
 			alu_control = 5'b10011;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b1;
 			reg_write = 1'b1;
 			pc_src = 1'b1;
@@ -197,7 +197,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b11;
 			alu_control = 5'b11000;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b0;
 			pc_src = 1'b1;
@@ -208,7 +208,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b11;
 			alu_control = 5'b11001;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b0;
 			pc_src = 1'b1;
@@ -219,7 +219,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b11;
 			alu_control = 5'b11010;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b0;
 			pc_src = 1'b1;
@@ -230,7 +230,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b11;
 			alu_control = 5'b11011;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b0;
 			pc_src = 1'b1;
@@ -241,7 +241,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b11;
 			alu_control = 5'b11100;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b0;
 			pc_src = 1'b1;
@@ -252,7 +252,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b11;
 			alu_control = 5'b11101;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b0;
 			pc_src = 1'b1;
@@ -263,7 +263,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			begin
 			imm_src = 2'b11;
 			alu_control = 5'b11110;
-			mem_to_reg = 1'b0;
+			mem_to_reg = 2'b00;
 			mem_write = 1'b0;
 			reg_write = 1'b0;
 			pc_src = 1'b1;
