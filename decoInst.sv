@@ -22,17 +22,23 @@ always @ (negedge clk)
 		2'b00 : 
 			begin
 				opcode = inst[25:20] ;
-				rd = inst[19:15] ;
-				rn = inst[14:10] ;
-				case (inst[23])
-					1'b0 : 
-					begin
-						rm = inst[9:5] ;
-					end
-					1'b1 : 
-					begin
-						imm10 = inst[9:0] ;
-					end
+				case (inst[23:20])
+					4'b000:
+						imm20 = inst[19:0] ;
+					default: begin
+						rd = inst[19:15] ;
+						rn = inst[14:10] ;
+						case (inst[23])
+							1'b0 : 
+							begin
+								rm = inst[9:5] ;
+							end
+							1'b1 : 
+							begin
+								imm10 = inst[9:0] ;
+							end
+						endcase
+						end
 				endcase
 			end
 		2'b01 :

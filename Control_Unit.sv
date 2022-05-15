@@ -7,6 +7,17 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 
 	always @*
 	case(opcode)
+		//NOP
+		6'b000000:
+			begin
+			imm_src = 2'bxx;
+			alu_control = 5'b00000;
+			mem_to_reg = 2'b00;
+			mem_write = 1'b0;
+			reg_write = 1'b0;
+			pc_src = 1'b0;
+			alu_src = 1'b0;
+			end
 		//ADD
 		6'b000001:
 			begin
