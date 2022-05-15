@@ -38,8 +38,8 @@ def imgToMemory(data):
     filewrite = open("..\Ram_data.mif", "w")
     filewrite.write("WIDTH=8;\n")
     filewrite.write("DEPTH=65536;\n")
-    filewrite.write("ADDRESS_RADIX=UNS;\n")
-    filewrite.write("DATA_RADIX=UNS;\n")
+    filewrite.write("ADDRESS_RADIX=BIN;\n")
+    filewrite.write("DATA_RADIX=BIN;\n")
     filewrite.write("CONTENT BEGIN\n")
     mem_count = 0
     for i in range(n * n):
