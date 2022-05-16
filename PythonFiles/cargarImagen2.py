@@ -40,7 +40,7 @@ def imgToMemory(data):
     filewrite.write("WIDTH=32;\n")
     filewrite.write("DEPTH=65536;\n")
     filewrite.write("ADDRESS_RADIX=UNS;\n")
-    filewrite.write("DATA_RADIX=UNS;\n")
+    filewrite.write("DATA_RADIX=BIN;\n")
     filewrite.write("CONTENT BEGIN\n")
     mem_count = 0
     data_count = 0
@@ -53,7 +53,7 @@ def imgToMemory(data):
         filewrite.write("    " + str(mem_count) + "    :    " + byteData + ";\n")
         mem_count += 1
         if data_count == n - 1:
-            data_count += n
+            data_count += (n + 2)
         else:
             data_count += 2
     filewrite.write("    [" + str(mem_count) + "..65535]    :    0;\n")
