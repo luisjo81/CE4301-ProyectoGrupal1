@@ -23,9 +23,10 @@ always @ (negedge clk)
 			begin
 				opcode = inst[25:20] ;
 				case (inst[23:20])
-					4'b000:
+					4'b0000:
 						imm20 = inst[19:0] ;
-					default: begin
+					default: 
+					begin
 						rd = inst[19:15] ;
 						rn = inst[14:10] ;
 						case (inst[23])
