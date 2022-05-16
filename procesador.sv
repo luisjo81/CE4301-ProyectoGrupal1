@@ -48,7 +48,7 @@ Control_Unit CU(.opcode(opcode), .pc_src(pc_src), .mem_to_reg(mem_to_reg),
 					.imm_src(imm_src), .reg_write(reg_write));
 							
 logic [31:0] extendRes, extendRes_new, RD1, RD2, RD1_new, RD2_new, signImm_new, signImm_new2;
-logic [31:0] registerBank[31:0], alu_Result, alu_Result_new, alu_Result_new2, RD_res, RD_res_new, Mem_Out;
+logic [31:0] registerBank[31:0], alu_Result, alu_Result_new, alu_Result_new2, RD_res, RD_res_new, Mem_Out, Mem_Out_new;
 //logic we_RF;
 							
 //Modulo del banco de registros
@@ -62,13 +62,25 @@ extend extender(.imm_src(imm_src), .imm(imm10), .imm2(imm15), .imm3(imm20), .res
 
 //:::::
 //Pipeline
-Pipeline_ID_EX pipelineDecode(.clk(clk), .rst(rst), .mem_to_reg(mem_to_reg),
-					.mem_write(mem_write), .alu_src(alu_src), .alu_control(alu_control), 
-					.pc_count(pc_count_new), .RD1(RD1), .RD2(RD2), .signImm(extendRes),
-					.mem_to_reg_new(mem_to_reg_new), .mem_write_new(mem_write_new), .alu_src_new(alu_src_new),
-					.imm_src_new(imm_src_new), .alu_control_new(alu_control_new), .pc_count_new(pc_count_new2), 
-					.RD1_new(RD1_new), .RD2_new(RD2_new), .signImm_new(extendRes_new), 
-					.reg_write(reg_write), .reg_write_new(reg_write_new), 
+Pipeline_ID_EX pipelineDecode(.clk(clk), .rst(rst),
+					.mem_to_reg(mem_to_reg), .mem_to_reg_new(mem_to_reg_new),
+					
+					.mem_write(mem_write), .mem_write_new(mem_write_new), 	
+					
+					.alu_src(alu_src), .alu_src_new(alu_src_new),
+					
+					.alu_control(alu_control), .alu_control_new(alu_control_new),
+					
+					.pc_count(pc_count_new), .pc_count_new(pc_count_new2), 
+					
+					.RD1(RD1), .RD1_new(RD1_new),
+					
+					.RD2(RD2), .RD2_new(RD2_new),
+					
+					.signImm(extendRes), .signImm_new(extendRes_new),
+					   
+					.reg_write(reg_write), .reg_write_new(reg_write_new),
+					
 					.rd(rd),.rd_new(rd2));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -110,7 +122,7 @@ Ram dataMemory_m(.address(alu_Result_new), .clock(clk), .data(RD2_res_new), .wre
 //:::::
 
 Pipeline_MEM_WB pipelineWB (	.clk(clk), .rst(rst), .data(Mem_Out), .aluRes(alu_Result_new),
-										.data_new(data_new), .aluRes_new(alu_Result_new2), 
+										.data_new(Mem_Out_new), .aluRes_new(alu_Result_new2), 
 										.men2reg_new (mem_to_reg_new3), .men2reg(mem_to_reg_new2),
 										.reg_write(reg_write_new2), .reg_write_new(reg_write_new3),
 										.signImm(signImm_new), .signImm_new(signImm_new2), 
@@ -120,7 +132,7 @@ Pipeline_MEM_WB pipelineWB (	.clk(clk), .rst(rst), .data(Mem_Out), .aluRes(alu_R
 
 //>>>>>>>>> WB >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>	
 
-mux_321 mux_Mem_WB(.signalA(data_new), .signalB(alu_Result_new2), .signalC(signImm_new2), 
+mux_321 mux_Mem_WB(.signalA(Mem_Out_new), .signalB(alu_Result_new2), .signalC(signImm_new2), 
 								.selector(mem_to_reg_new3), .result(WD3_new));
 
 
