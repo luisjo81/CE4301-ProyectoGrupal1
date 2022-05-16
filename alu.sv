@@ -48,7 +48,7 @@ module alu #(parameter N=32)
 	mult_op MUL_OP(src_A, src_B, temp_result_mul); //MUL
 	div_op DIV_OP(src_A, src_B, temp_result_div); //DIV
 	move_op MOVE_OP(src_A, temp_result_move);//MOVE
-	load8bitNumber LNUM_OP(src_A,src_B, temp_result_lnum);//LNUM
+	load8BitNumber LNUM_OP(src_A,src_B, temp_result_lnum);//LNUM
 	and_op AND_OP(src_A, src_B, temp_result_and);//AND
 	or_op OR_OP(src_A, src_B, temp_result_or);//OR
 	xor_op XOR_OP(src_A, src_B, temp_result_xor);//XOR

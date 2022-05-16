@@ -44,7 +44,7 @@ module alu_tb();
 	
 	alu_ctrl=5'd6;//LNUM
 	srcA=32'd134941186; // 00001000  00001011   00001010   00000010
-	srcB=	32'd2; // deberia devolver un 10
+	srcB=	32'd3; // deberia devolver un 10
 	#40
 	
 	
