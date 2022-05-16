@@ -13,6 +13,7 @@ module alu #(parameter N=32)
 	logic [N-1:0]temp_result_mul;
 	logic [N-1:0]temp_result_div;
 	logic [N-1:0]temp_result_move;
+	logic [N-1:0]temp_result_lnum;
 	logic [N-1:0]temp_result_and;
 	logic [N-1:0]temp_result_or;
 	logic [N-1:0]temp_result_xor;
@@ -25,6 +26,8 @@ module alu #(parameter N=32)
 	logic [N-1:0]temp_result_jge;
 	logic [N-1:0]temp_result_jlt;
 	logic [N-1:0]temp_result_jle;
+
+
 	
 
 // Flags temporales - temp flags
@@ -45,11 +48,11 @@ module alu #(parameter N=32)
 	mult_op MUL_OP(src_A, src_B, temp_result_mul); //MUL
 	div_op DIV_OP(src_A, src_B, temp_result_div); //DIV
 	move_op MOVE_OP(src_A, temp_result_move);//MOVE
+	load8bitNumber LNUM_OP(src_A,src_B, temp_result_lnum);//LNUM
 	and_op AND_OP(src_A, src_B, temp_result_and);//AND
 	or_op OR_OP(src_A, src_B, temp_result_or);//OR
 	xor_op XOR_OP(src_A, src_B, temp_result_xor);//XOR
 	not_op NOT_OP(src_A, temp_result_not);//NOT
-	//MEM ?
 	add_op LDR_OP(src_A, src_B, temp_result_ldr); // ADD LDR
 	add_op STR_OP(src_A, src_B, temp_result_str); // ADD STR
 	je_op JE_OP(src_A, temp_result_je);//JEQ
@@ -86,6 +89,10 @@ module alu #(parameter N=32)
 			 
 			 5 : begin 
 				   TRESULT = temp_result_div;
+				  end
+				  
+			 6 : begin 
+				   TRESULT = temp_result_lnum;
 				  end
 
           9 : begin 
