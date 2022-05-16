@@ -1,1 +1,1 @@
-Info (10281): Verilog HDL Declaration information at procesador.sv(26): object "rd2" differs only in case from object "RD2" in the same scope File: C:/Github/CE4301-ProyectoGrupal1/procesador.sv Line: 26
+Info (10281): Verilog HDL Declaration information at procesador.sv(26): object "rd2" differs only in case from object "RD2" in the same scope File: C:/Users/Usuario/Documents/GitHub/CE4301-ProyectoGrupal1/procesador.sv Line: 26

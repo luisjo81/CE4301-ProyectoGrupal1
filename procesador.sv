@@ -4,12 +4,12 @@ module procesador();
 
 logic clk = 0; 
 logic rst;
-logic [31:0] new_pc, pc_count, pc_count_new, pc_count_new2, pc_count_new3;
+logic [31:0] pc_count, pc_count_new, pc_count_new2, pc_count_new3;
 
 //>>>>>>>>> FETCH >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 logic [25:0] inst, inst_new;
 //Modulo del PC
-pc pc_m (.clk(clk), .rst(rst), .en(pc_src), .pc_branch(new_pc), .pc_count(pc_count));
+pc pc_m (.clk(clk), .rst(rst), .en(pc_src), .pc_branch(pc_count_new2), .pc_count(pc_count));
 
 //Modulo de las instrucciones
 Rom instructionMemory_m (.address(pc_count), .clock(clk), .q(inst));
@@ -45,10 +45,10 @@ logic [4:0] alu_control, alu_control_new;
 		
 Control_Unit CU(.opcode(opcode), .pc_src(pc_src), .mem_to_reg(mem_to_reg),
 					.mem_write(mem_write), .alu_control(alu_control),
-					.imm_src(imm_src), .reg_write(reg_write));
+					.imm_src(imm_src), .reg_write(reg_write), .alu_src(alu_src));
 							
-logic [31:0] extendRes, extendRes_new, RD1, RD2, RD1_new, RD2_new, signImm_new, signImm_new2;
-logic [31:0] registerBank[31:0], alu_Result, alu_Result_new, alu_Result_new2, RD_res, RD_res_new, Mem_Out, Mem_Out_new;
+logic [31:0] extendRes, extendRes_new, RD1, RD2, RD1_new, RD2_new, RD2_new2, signImm_new, signImm_new2;
+logic [31:0] registerBank[31:0], alu_Result, alu_Result_new, alu_Result_new2, RD_res, Mem_Out, Mem_Out_new;
 //logic we_RF;
 							
 //Modulo del banco de registros
@@ -64,23 +64,14 @@ extend extender(.imm_src(imm_src), .imm(imm10), .imm2(imm15), .imm3(imm20), .res
 //Pipeline
 Pipeline_ID_EX pipelineDecode(.clk(clk), .rst(rst),
 					.mem_to_reg(mem_to_reg), .mem_to_reg_new(mem_to_reg_new),
-					
 					.mem_write(mem_write), .mem_write_new(mem_write_new), 	
-					
 					.alu_src(alu_src), .alu_src_new(alu_src_new),
-					
 					.alu_control(alu_control), .alu_control_new(alu_control_new),
-					
 					.pc_count(pc_count_new), .pc_count_new(pc_count_new2), 
-					
 					.RD1(RD1), .RD1_new(RD1_new),
-					
 					.RD2(RD2), .RD2_new(RD2_new),
-					
 					.signImm(extendRes), .signImm_new(extendRes_new),
-					   
 					.reg_write(reg_write), .reg_write_new(reg_write_new),
-					
 					.rd(rd),.rd_new(rd2));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -91,7 +82,7 @@ Pipeline_ID_EX pipelineDecode(.clk(clk), .rst(rst),
 mux_32bits mux_Reg_Alu(.signalA(RD2_new), .signalB(extendRes_new), .selector(alu_src_new), .result(RD_res));
 					
 //:::::	Entra alu_control sale la señal sostenida								
-alu ALU_TB(.alu_ctrl(alu_control_new), .src_A(RD1_new), .src_B(RD_res), .alu_result(alu_Result));
+alu ALU(.alu_ctrl(alu_control_new), .src_A(RD1_new), .src_B(RD_res), .alu_result(alu_Result));
 
 
 
@@ -102,9 +93,9 @@ alu ALU_TB(.alu_ctrl(alu_control_new), .src_A(RD1_new), .src_B(RD_res), .alu_res
 //Pipeline
 //:::::
 Pipeline_EX_MEM pipelineExecute(.clk(clk), .rst(rst), .mem_to_reg(mem_to_reg_new), .mem_write(mem_write_new),
-										.pc_count(pc_count_new2), .RD2(RD_res), .aluResult(alu_Result), 
+										.pc_count(pc_count_new2), .RD2(RD2_new), .aluResult(alu_Result), 
 										.mem_to_reg_new(mem_to_reg_new2), .mem_write_new(mem_write_new2), .pc_count_new(pc_count_new3), 
-										.RD2_new(RD_res_new), .aluResult_new(alu_Result_new), 
+										.RD2_new(RD2_new2), .aluResult_new(alu_Result_new), 
 										.reg_write(reg_write_new), .reg_write_new(reg_write_new2),
 										.signImm(extendRes_new), .signImm_new(signImm_new),
 										.rd(rd2),.rd_new(rd3));
@@ -114,7 +105,7 @@ Pipeline_EX_MEM pipelineExecute(.clk(clk), .rst(rst), .mem_to_reg(mem_to_reg_new
 //>>>>>>>>> MEMORY >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 									
 //RAM
-Ram dataMemory_m(.address(alu_Result_new), .clock(clk), .data(RD2_res_new), .wren(mem_write_new2), .q(Mem_Out));
+Ram dataMemory_m(.address(alu_Result_new), .clock(clk), .data(RD2_new2), .wren(mem_write_new2), .q(Mem_Out));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //:::::
