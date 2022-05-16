@@ -1,6 +1,6 @@
 import os
 
-arithmeticOpList = ['NOP', 'ADD', 'ADDI', 'SUB', 'SUBI', 'MUL', 'DIV', 'MOV', 'MOVI']
+arithmeticOpList = ['NOP', 'ADD', 'ADDI', 'SUB', 'SUBI', 'MULI', 'DIV', 'MOV', 'MOVI', 'LNUM']
 logicOpList = ['AND', 'ANDI', 'OR', 'ORI', 'XOR', 'NOT']
 memoryOpList = ['LDR', 'STR']
 jumpOpList = ['JMP', 'JEQ', 'JNEQ', 'JGT', 'JGE', 'JLT', 'JLE']
@@ -101,7 +101,7 @@ def parseOperation(operation):
         return '000010'
     if operation == 'SUBI':
         return '001010'
-    if operation == 'MUL':
+    if operation == 'MULI':
         return '000011'
     if operation == 'DIV':
         return '001101'
@@ -109,6 +109,8 @@ def parseOperation(operation):
         return '000100'
     if operation == 'MOVI':
         return '001100'
+    if operation == 'LNUM':
+        return '001110'
     if operation == 'AND':
         return '010001'
     if operation == 'ANDI':
@@ -224,9 +226,9 @@ def parseCond(jump):
 
 #Función que indica cuántos registros utiliza una instrucción
 def getNumberOfRegisters(operation):
-    if operation == 'ADD' or operation == 'SUB' or operation == 'MUL' or operation == 'AND' or operation == 'OR' or operation == 'XOR':
+    if operation == 'ADD' or operation == 'SUB' or operation == 'AND' or operation == 'OR' or operation == 'XOR':
         return 3
-    elif operation == 'ADDI' or operation == 'SUBI' or operation == 'DIV' or operation == 'MOV' or operation == 'ANDI' or operation == 'ORI' or operation == 'NOT' or operation == 'LDR' or operation == 'STR' or operation == 'JEQ' or operation == 'JNE' or operation == 'JGE' or operation == 'JG' or operation == 'JLE' or operation == 'JL' :
+    elif operation == 'ADDI' or operation == 'SUBI'  or operation == 'MULI' or operation == 'DIV' or operation == 'MOV' or operation == 'LNUM' or operation == 'ANDI' or operation == 'ORI' or operation == 'NOT' or operation == 'LDR' or operation == 'STR' or operation == 'JEQ' or operation == 'JNE' or operation == 'JGE' or operation == 'JG' or operation == 'JLE' or operation == 'JL' :
         return 2
     elif operation == 'MOVI':
         return 1
@@ -235,7 +237,7 @@ def getNumberOfRegisters(operation):
 
 #Función que indica si la operación tiene un valor inmediato
 def haveInmediates(operation):
-    if operation == 'ADDI' or operation == 'SUBI' or operation == 'DIV' or operation == 'MOVI' or operation == 'ANDI' or operation == 'ORI' or operation == 'LDR' or operation == 'STR':
+    if operation == 'ADDI' or operation == 'SUBI'  or operation == 'MULI'  or operation == 'DIV' or operation == 'MOVI' or operation == 'LNUM' or operation == 'ANDI' or operation == 'ORI' or operation == 'LDR' or operation == 'STR':
         return True
     else:
         return False
@@ -279,7 +281,7 @@ def parseInstruction(instruction, line):
             opType = i
             print ("Operation detected: " + opType)
             if i == 'NOP':
-                return '00000000000000000000000000'
+                return 'xxxxxxxxxxxxxxxxxxxxxxxxxx'
             if dataType == 3:
                 memType = opType
                 flagOperation = True
@@ -411,7 +413,7 @@ def createBinary():
     file.close()
     print("....................................")
 
-#print (parseInstruction(['NOP'],0))
+#print (parseInstruction(['LNUM','R0','R2','1'],0))
 readFile()
 deleteEndOfLine()
 createBinary()
