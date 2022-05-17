@@ -11,7 +11,7 @@ def insToMemory(filename, filename2):
     for i in range(n):
         filename2.write("    " + str(mem_count) + "    :    " + str(data[i]) + ";\n")
         mem_count += 1
-    filename2.write("    [" + str(mem_count) + "..255]    :    0;\n")
+    filename2.write("    [" + str(mem_count) + "..255]    :    00000000000000000000000000;\n")
     filename2.write("END;\n")
 
 def deleteEndOfLine(instructionsList):

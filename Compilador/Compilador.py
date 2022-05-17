@@ -8,7 +8,7 @@ instructionLines = {}
 
 #Función principal que se encarga de leer el archivo con las intrucciones y las almacena en una lista
 def readFile():
-    file = open('../Program/Instructions.txt', 'r')
+    file = open('../Program/test1.txt', 'r')
     print("File opened")
     print("....................................")
     tempList = []
