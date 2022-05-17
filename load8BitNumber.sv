@@ -36,13 +36,12 @@ module load8BitNumber #(parameter N=32)
 					end
 				
 				default: temp_result = 32'd0;
+				
 					
 			endcase
-			
+			$display("temp_result, %b", temp_result);
 		end
 
-	
-	
 	assign result = temp_result;
 
 endmodule

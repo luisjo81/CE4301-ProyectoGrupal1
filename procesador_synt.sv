@@ -1,13 +1,12 @@
-`timescale 1 ps / 1 ps
+//`timescale 1 ps / 1 ps
 
-module procesador(
-//input logic clk, 
-//input logic rst
-	
+module procesador_synt(
+input logic clk, 
+input logic rst
 );
 
-logic clk = 0; 
-logic rst;
+//logic clk = 0; 
+//logic rst;
 logic [31:0] pc_count, pc_count_new, pc_count_new2, pc_count_new3;
 
 //>>>>>>>>> FETCH >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -136,15 +135,15 @@ mux_321 mux_Mem_WB(.signalA(Mem_Out_new), .signalB(alu_Result_new2), .signalC(si
 //								.selector(mem_to_reg_new3), .result(WD3_new));								
 
 
-always #5 clk = ~clk;
-
-initial
-	begin
-	
-		rst = 1'b1; 
-		#10;
-		rst = 1'b0;
-
-	end
+//always #5 clk = ~clk;
+//
+//initial
+//	begin
+//	
+//		rst = 1'b1; 
+//		#10;
+//		rst = 1'b0;
+//
+//	end
 
 endmodule

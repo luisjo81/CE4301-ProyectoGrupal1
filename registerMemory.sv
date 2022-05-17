@@ -23,7 +23,7 @@ always@(negedge clk)
 		if(we_RF)
 			begin
 			registerBank [A3] = WD3;
-			$display("RD3, %b", registerBank [A3]);
+			$display("RD3 = %d, %b",A3, registerBank [A3]);
 			end
 	end
 		
