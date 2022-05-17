@@ -1,6 +1,10 @@
-`timescale 1 ps / 1 ps
+//`timescale 1 ps / 1 ps
 
-module procesador();
+module procesador(
+//input logic clk, 
+//input logic rst
+
+);
 
 logic clk = 0; 
 logic rst;

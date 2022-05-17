@@ -1,4 +1,4 @@
-`timescale 1 ps / 1 ps
+//`timescale 1 ps / 1 ps
 
 module pc #(parameter N=32)
 (
