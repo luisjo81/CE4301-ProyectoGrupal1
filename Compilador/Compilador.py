@@ -128,17 +128,17 @@ def parseOperation(operation):
     if operation == 'JMP':
         return '111000'
     if operation == 'JEQ':
-        return '110001'
+        return '111001'
     if operation == 'JNEQ':
-        return '110010'
+        return '111010'
     if operation == 'JGT':
-        return '110011'
+        return '111011'
     if operation == 'JGE':
-        return '110100'
+        return '111100'
     if operation == 'JLT':
-        return '110101'
+        return '111101'
     if operation == 'JLE':
-        return '110110'
+        return '111110'
 
 #Función que parsea un registro a binario
 def parseRegister(register):
@@ -206,21 +206,6 @@ def parseRegister(register):
         return '11110'
     if register == 'R31':
         return '11111'
-
-#Función que parsea las condiciones de los jumps a binario
-def parseCond(jump):
-    if jump == 'JEQ':
-        return '001'
-    if jump == 'JNEQ':
-        return '010'
-    if jump == 'JGT':
-        return '011'
-    if jump == 'JGE':
-        return '100'
-    if jump == 'JLT':
-        return '101'
-    if jump == 'JLE':
-        return '110'
 
 #Función que indica cuántos registros utiliza una instrucción
 def getNumberOfRegisters(operation):
@@ -340,7 +325,7 @@ def parseInstruction(instruction, line):
                         bitstreamOk = False  
                 else:
                     line = getBranchLine(i)
-                    bitstream = bitstream + intToBinary(line, 10) + parseCond(jumpType)
+                    bitstream = bitstream + intToBinary(line, 10)
                     print ("Parsed operation: " + bitstream)
         elif flagMem == True:
             if registerCounter == 2:
@@ -426,7 +411,7 @@ def createBinary():
     file.close()
     print("....................................")
 
-print (parseInstruction(['JLT','R29','R12','top:'],0))
-#readFile()
-#deleteEndOfLine()
-#createBinary()
+#print (parseInstruction(['JLT','R29','R12','top:'],0))
+readFile()
+deleteEndOfLine()
+createBinary()
