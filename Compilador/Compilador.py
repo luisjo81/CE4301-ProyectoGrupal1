@@ -4,7 +4,7 @@ memoryOpList = ['LDR', 'STR']
 jumpOpList = ['JMP', 'JEQ', 'JNEQ', 'JGT', 'JGE', 'JLT', 'JLE']
 registersList = ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', 'R10', 'R11', 'R12', 'R13', 'R14', 'R15', 'R16', 'R17', 'R18', 'R19', 'R20', 'R21', 'R22', 'R23', 'R24', 'R25', 'R26', 'R27', 'R28', 'R29', 'R30', 'R31']
 instructionsList = []
-instructionLines = {2: 'top:'}
+instructionLines = {}
 
 #Función principal que se encarga de leer el archivo con las intrucciones y las almacena en una lista
 def readFile():
@@ -211,7 +211,7 @@ def parseRegister(register):
 def getNumberOfRegisters(operation):
     if operation == 'ADD' or operation == 'SUB' or operation == 'AND' or operation == 'OR' or operation == 'XOR':
         return 3
-    elif operation == 'ADDI' or operation == 'SUBI'  or operation == 'MULI' or operation == 'DIV' or operation == 'MOV' or operation == 'LNUM' or operation == 'ANDI' or operation == 'ORI' or operation == 'NOT' or operation == 'LDR' or operation == 'STR' or operation == 'JEQ' or operation == 'JNE' or operation == 'JGE' or operation == 'JG' or operation == 'JLE' or operation == 'JL' :
+    elif operation == 'ADDI' or operation == 'SUBI'  or operation == 'MULI' or operation == 'DIV' or operation == 'MOV' or operation == 'LNUM' or operation == 'ANDI' or operation == 'ORI' or operation == 'NOT' or operation == 'LDR' or operation == 'STR' or operation == 'JEQ' or operation == 'JNE' or operation == 'JGE' or operation == 'JGT' or operation == 'JLE' or operation == 'JLT' :
         return 2
     elif operation == 'MOVI':
         return 1
