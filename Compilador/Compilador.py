@@ -4,11 +4,11 @@ memoryOpList = ['LDR', 'STR']
 jumpOpList = ['JMP', 'JEQ', 'JNEQ', 'JGT', 'JGE', 'JLT', 'JLE']
 registersList = ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', 'R10', 'R11', 'R12', 'R13', 'R14', 'R15', 'R16', 'R17', 'R18', 'R19', 'R20', 'R21', 'R22', 'R23', 'R24', 'R25', 'R26', 'R27', 'R28', 'R29', 'R30', 'R31']
 instructionsList = []
-instructionLines = {}
+instructionLines = {2: 'top:'}
 
 #Función principal que se encarga de leer el archivo con las intrucciones y las almacena en una lista
 def readFile():
-    file = open('Instructions.txt', 'r')
+    file = open('../Program/Instructions.txt', 'r')
     print("File opened")
     print("....................................")
     tempList = []
@@ -296,7 +296,7 @@ def parseInstruction(instruction, line):
             opType = i
             print ("Operation detected: " + opType)
             if i == 'NOP':
-                return 'xxxxxxxxxxxxxxxxxxxxxxxxxx'
+                return '00000000000000000000000000'
             if dataType == 3:
                 memType = opType
                 flagOperation = True
@@ -413,7 +413,7 @@ def parseInstruction(instruction, line):
 def createBinary():
     line = 0
     parsedBinaryData = ''
-    file = open("parsedInst.txt", "a+")
+    file = open("../PythonFiles/parsedInst.txt", "a+")
     print("Creating binary file")
     for i in instructionsList:
         parsedBinaryData = parseInstruction(instructionToList(i), line)
@@ -426,7 +426,7 @@ def createBinary():
     file.close()
     print("....................................")
 
-#print (parseInstruction(['LDR','R0','10(R2)'],0))
+print (parseInstruction(['JLT','R29','R12','top:'],0))
 #readFile()
 #deleteEndOfLine()
 #createBinary()

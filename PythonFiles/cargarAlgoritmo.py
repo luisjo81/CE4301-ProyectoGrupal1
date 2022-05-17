@@ -2,7 +2,7 @@ def insToMemory(filename, filename2):
     data = deleteEndOfLine(filename.readlines())
     n = len(data)
     print(data)
-    filename2.write("WIDTH=32;\n")
+    filename2.write("WIDTH=26;\n")
     filename2.write("DEPTH=256;\n")
     filename2.write("ADDRESS_RADIX=UNS;\n")
     filename2.write("DATA_RADIX=UNS;\n")
@@ -21,8 +21,8 @@ def deleteEndOfLine(instructionsList):
     instructionsList = tempList
     return instructionsList
 
-filename = open(".\parsedInst.txt", "r")
-filename2 = open("..\Rom_data.mif", "w")
+filename = open("./parsedInst.txt", "r")
+filename2 = open("../Rom_data.mif", "w")
 insToMemory(filename, filename2)
 filename.close()
 filename2.close()
