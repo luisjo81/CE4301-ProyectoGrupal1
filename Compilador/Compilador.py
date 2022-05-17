@@ -1,5 +1,3 @@
-import os
-
 arithmeticOpList = ['NOP', 'ADD', 'ADDI', 'SUB', 'SUBI', 'MULI', 'DIV', 'MOV', 'MOVI', 'LNUM']
 logicOpList = ['AND', 'ANDI', 'OR', 'ORI', 'XOR', 'NOT']
 memoryOpList = ['LDR', 'STR']
@@ -254,11 +252,28 @@ def getBranchLine(branch):
 
 #Función que extrae el registro de un offset
 def getOffsetRegister(data):
-    return data[2:-1]
+    register = ''
+    flag = False
+    for i in data:
+        if i == '(':
+            flag = True
+        elif i == ')':
+            break
+        elif flag == True:
+            register = register + i
+    return register        
+            
 
 #Función que extrae el registro de un offset
 def getOffsetValue(data):
-    return int(data[:-4])
+    offset = ''
+    flag = False
+    for i in data:
+        if i == '(':
+            break
+        else:
+            offset = offset + i
+    return int(offset)
 
 #Función que verifica si una instrucción tiene una sintáxis correcta y genera el bitstream
 def parseInstruction(instruction, line):
@@ -401,10 +416,8 @@ def createBinary():
     file = open("parsedInst.txt", "a+")
     print("Creating binary file")
     for i in instructionsList:
-        #print(i)
-        #print (parseInstruction(instructionToList(i)))
         parsedBinaryData = parseInstruction(instructionToList(i), line)
-        if parsedBinaryData != False:
+        if (parsedBinaryData != False) and (i != ''):
             file.write(parsedBinaryData + "\n")
             line += 1
             print("Parsed instruction: " + parsedBinaryData)
@@ -413,7 +426,7 @@ def createBinary():
     file.close()
     print("....................................")
 
-#print (parseInstruction(['LNUM','R0','R2','1'],0))
-readFile()
-deleteEndOfLine()
-createBinary()
+#print (parseInstruction(['LDR','R0','10(R2)'],0))
+#readFile()
+#deleteEndOfLine()
+#createBinary()
