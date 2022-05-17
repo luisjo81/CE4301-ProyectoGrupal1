@@ -15,22 +15,22 @@ module load8BitNumber #(parameter N=32)
 			
 			case(b)
 			
-				1:
+				32'd1:
 					begin
 						 temp_result ={24'd0, a[7:0]};
 					end
 					
-				2:
+				32'd2:
 					begin
 						 temp_result ={24'd0, a[15:8]};
 					end
 					
-				3:
+				32'd3:
 					begin
 						 temp_result ={24'd0, a[23:16]};
 					end
 					
-				4:
+				32'd4:
 					begin
 						 temp_result ={24'd0, a[31:24]};
 					end
@@ -40,8 +40,9 @@ module load8BitNumber #(parameter N=32)
 					
 			endcase
 			$display("temp_result, %b", temp_result);
+			$display("b, %b", b);
 		end
-
+	
 	assign result = temp_result;
-
+	
 endmodule
