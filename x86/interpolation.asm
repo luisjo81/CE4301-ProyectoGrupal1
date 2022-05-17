@@ -10,7 +10,7 @@ _start:
     mov esi,20; 0,1 value
     mov edi,30; 1,0 value
     mov r8d,40; 1,1 value
-    mov r13d,0; write pointer
+    mov r13d,0x0; write pointer
 
 ;horizontal and vertical values
 _ptA:
@@ -97,12 +97,8 @@ _calcPt:
     mov ecx,3
     div ecx
     mov r15d,eax
-    ; aqui se deberia tener un puntero al cual escribir
-    ;aqui se escribiria el punto en el archivo
     ret
-
-;Division using recursive substraction
-
+    
 _quit:
     ;exit the program
     mov	eax,1	; system call number (sys_exit)

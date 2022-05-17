@@ -1,6 +1,6 @@
 section .data
 filename db 'output.txt',0h  ; the filename to create
-contents  db '0',   ; the contents to write at the start of the file
+contents  db '123',   ; the contents to write at the start of the file
 
 section .text
 
@@ -18,8 +18,8 @@ _seek:
     mov     eax, 19             ; invoke SYS_LSEEK (kernel opcode 19)
     int     80h                 ; call the kernel
  
-    mov     edx, 4             ; number of bytes to write - one for each letter of our contents string
-    mov     ecx, r15d       ; move the memory address of our contents string into ecx
+    mov     edx,  3           ; number of bytes to write - one for each letter of our contents string
+    mov     ecx, contents       ; move the memory address of our contents string into ecx
     mov     ebx, ebx            ; move the opened file descriptor into EBX (not required as EBX already has the FD)
     mov     eax, 4              ; invoke SYS_WRITE (kernel opcode 4)
     int     80h                 ; call the kernel
