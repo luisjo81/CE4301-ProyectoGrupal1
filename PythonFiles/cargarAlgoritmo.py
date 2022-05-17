@@ -5,7 +5,7 @@ def insToMemory(filename, filename2):
     filename2.write("WIDTH=26;\n")
     filename2.write("DEPTH=256;\n")
     filename2.write("ADDRESS_RADIX=UNS;\n")
-    filename2.write("DATA_RADIX=UNS;\n")
+    filename2.write("DATA_RADIX=BIN;\n")
     filename2.write("CONTENT BEGIN\n")
     mem_count = 0
     for i in range(n):
