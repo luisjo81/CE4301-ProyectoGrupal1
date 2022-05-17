@@ -1,5 +1,4 @@
 %include        'seek.asm'
-%include        'read.asm'
 
 ZERO equ 0
 
@@ -11,6 +10,7 @@ _start:
     mov esi,20; 0,1 value
     mov edi,30; 1,0 value
     mov r8d,40; 1,1 value
+    mov r13d,0x0; write pointer
 
 ;horizontal and vertical values
 _ptA:
@@ -95,27 +95,10 @@ _calcPt:
     mov eax,r10d
     add eax,r9d
     mov ecx,3
-    mov r14,0
-    call _div
-    mov r15d,r14d
-    ;div ecx
-    ;mov r15d,eax
-    ; aqui se deberia tener un puntero al cual escribir
-    ;aqui se escribiria el punto en el archivo
+    div ecx
+    mov r15d,eax
     ret
-
-;Division using recursive substraction
-_div:
-    cmp eax,ZERO
-    jg _divAux
-    sub r14d, 1
-    ret
-
-_divAux:
-    sub eax,ecx
-    inc r14d
-    jmp _div
-
+    
 _quit:
     ;exit the program
     mov	eax,1	; system call number (sys_exit)
