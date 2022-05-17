@@ -5,7 +5,7 @@ module mux_321 #(parameter N=32)
 	output [N-1:0] result
 );
 
-assign result = selector [1] ? (signalC):(selector[0]?signalB:signalA);
+assign result = selector [1] ? (signalC):(selector[0]?signalA:signalB);
 
 //always @ (selector)
 //	begin

@@ -11,15 +11,12 @@ output logic [31:0] registerBank[31:0] = '{32'b0,32'b0,32'b0,32'b0,32'b0,32'b0,3
 														 32'b0,32'b0};
 
 always@(posedge clk) 
-	begin
-		if(!we_RF) begin
+		begin
 			RD1 = registerBank [A1];
 			RD2 = registerBank [A2];
 			$display("RD1, %b", registerBank [A1]);
 			$display("RD2, %b", registerBank [A2]);
-					
-	end
-end
+		end
 
 always@(negedge clk) 
 	begin

@@ -23,8 +23,7 @@ always @ (negedge clk)
 			begin
 				opcode = inst[25:20] ;
 				case (inst[23:20])
-					4'b0000:
-						imm20 = inst[19:0] ;
+					4'b0000: imm20 = inst[19:0] ;
 					default: 
 					begin
 						rd = inst[19:15] ;
@@ -32,7 +31,8 @@ always @ (negedge clk)
 						case (inst[23])
 							1'b0 : 
 							begin
-								rm = inst[9:5] ;
+								rm = inst[9:5];
+								$display("rm, %b", rm);
 							end
 							1'b1 : 
 							begin
