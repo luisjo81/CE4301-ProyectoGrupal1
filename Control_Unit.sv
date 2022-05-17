@@ -106,6 +106,17 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			pc_src = 1'b0;
 			alu_src = 1'b1;
 			end
+		//LNUM
+		6'b001100:
+			begin
+			imm_src = 2'b00;
+			alu_control = 5'b00110;
+			mem_to_reg = 2'b00;
+			mem_write = 1'b0;
+			reg_write = 1'b1;
+			pc_src = 1'b0;
+			alu_src = 1'b1;
+			end
 		//AND
 		6'b010001:
 			begin
