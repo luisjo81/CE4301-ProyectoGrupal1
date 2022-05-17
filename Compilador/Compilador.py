@@ -247,7 +247,6 @@ def getOffsetRegister(data):
         elif flag == True:
             register = register + i
     return register        
-            
 
 #Función que extrae el registro de un offset
 def getOffsetValue(data):
@@ -327,6 +326,7 @@ def parseInstruction(instruction, line):
                     line = getBranchLine(i)
                     bitstream = bitstream + intToBinary(line, 10)
                     print ("Parsed operation: " + bitstream)
+                    return bitstream
         elif flagMem == True:
             if registerCounter == 2:
                 if checkRegister(i) == True:
@@ -383,7 +383,7 @@ def parseInstruction(instruction, line):
             print ("ERROR: wrong instruction syntax")
             bitstreamOk = False
 
-    if flagIsBranch == True:#Aquí se puede agregar el salto del espacio en blanco
+    if flagIsBranch == True:
         return False
     
     if flagData == True:
