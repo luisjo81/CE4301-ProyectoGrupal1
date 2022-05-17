@@ -107,7 +107,7 @@ module Control_Unit(opcode, pc_src, mem_to_reg, mem_write, alu_control, imm_src,
 			alu_src = 1'b1;
 			end
 		//LNUM
-		6'b001100:
+		6'b001110:
 			begin
 			imm_src = 2'b00;
 			alu_control = 5'b00110;
