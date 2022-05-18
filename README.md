@@ -5,13 +5,12 @@ CE4301 Arquitectura de Computadores I
 Esta aplicación se encarga de aplicar un algoritmo de interpolación a imágenes, utilizando un procesador con pipelining y su propio ISA, ambos diseñados por el grupo. 
 
 ## Contenidos
-- [:clipboard: Requisitos](#requisitos)
-- [:computer: Ejecución](#ejecución)
-- [:green_book: Green Card](#greencard)
-- [:floppy_disk: Instrucciones](#instrucciones)
-- [:chart_with_upwards_trend: Algoritmo de Interpolación](#algoritmo)
-- [:x: Limitaciones](#limitaciones)
-- [:email: Autores](#autores)
+- :clipboard: Requisitos
+- :computer: Ejecución
+- :green_book: Green Card
+- :floppy_disk: Instrucciones
+- :x: Limitaciones
+- :email: Autores
 
 ## :clipboard: Requisitos
 - La aplicación fue desarrollada en un sistema Windows (10 / 11). No se asegura un correcto funcionamiento de la aplicación en otro sistema.
@@ -23,7 +22,7 @@ SoC-M TL2.
 
 ## :computer: Ejecución
 - El primer paso es ejecutar el archivo Compilador.py, el cual se va a encargar de parsear las instrucciones del ISA para que puedan ser revisadas por el porcesador.
-- Una vez se haya ejecutado correctamente el compilador, este habrá generado un archivo llamado parsedInst.txt, el cual contiene los bitstreams requeridos por el procesador para hacer los cálculos.  
+- Una vez se haya ejecutado correctamente el compilador, este habrá generado un archivo llamado parsedInst.txt, el cual contiene los bitstreams requeridos por el procesador para hacer los cálculos. Posteriormente, estos datos deberán ser cargados en la ROM del procesador.  
 
 ## :green_book: Green Card
 A continuación se muestra el Green Card para el ISA propuesto. El mismo cuenta con tres secciones:
@@ -37,8 +36,241 @@ A continuación se muestra el Green Card para el ISA propuesto. El mismo cuenta 
 ## :floppy_disk: Instrucciones
 Como se mencionó en la sección de requisitos, se requiere un archivo .txt con las instrucciones a ejecutar. En este caso, las instrucciones son muy específicas, ya que lo que se busca es el correcto procesamiento de la imagen. Se incluye un archivo llamado Instructions.txt, el cual contiene las siguientes instrucciones:
 
-## :chart_with_upwards_trend: Algoritmo de Interpolación
-El procesamiento de la imagen
+```assembly
+/CONTADOR DE LECTURA R29 
+MOVI R29,0
+NOP
+
+/CONTADOR DE ESCRITURA R27 
+MOVI R27,126
+NOP
+MOVI R12, 250
+NOP
+
+top:
+/R28 CONTIENE EL BITSTREAM DE 32BITS DE MEMORIA
+LDR R28,0(R29)
+NOP
+NOP
+NOP
+LNUM R22,R28,1
+LNUM R23,R28,2
+LNUM R24,R28,3
+LNUM R25,R28,4
+
+/ALGORITMO DE INTERPOLACION
+/Calcula el punto A
+MULI R8,R22,2
+NOP
+NOP
+NOP
+ADD R9,R8,R23
+NOP
+NOP
+NOP
+DIV R0,R9,3
+NOP
+NOP
+NOP
+STR R0,0(R27)
+ADDI R27,R27,1
+
+/Calcula el punto B
+MULI R8,R23,2
+NOP
+NOP
+NOP
+ADD R9,R8,R22
+NOP
+NOP
+NOP
+DIV R0,R9,3
+NOP
+NOP
+NOP
+STR R0,0(R27)
+ADDI R27,R27,1
+
+/Calcula el punto C
+MULI R8,R22,2
+NOP
+NOP
+NOP
+ADD R9,R8,R24
+NOP
+NOP
+NOP
+DIV R0,R9,3
+NOP
+NOP
+NOP
+MOV R16,R0
+NOP
+STR R0,0(R27)
+ADDI R27,R27,1
+
+/Calcula el punto F
+MULI R8,R23,2
+NOP
+NOP
+NOP
+ADD R9,R8,R25
+NOP
+NOP
+NOP
+DIV R0,R9,3
+NOP
+NOP
+NOP
+MOV R15,R0
+NOP
+STR R0,0(R27)
+ADDI R27,R27,1
+
+/Calcula el punto D
+MULI R8,R16,2
+NOP
+NOP
+NOP
+ADD R9,R8,R15
+NOP
+NOP
+NOP
+DIV R0,R9,3
+NOP
+NOP
+NOP
+STR R0,0(R27)
+ADDI R27,R27,1
+
+/Calcula el punto E
+MULI R8,R15,2
+NOP
+NOP
+NOP
+ADD R9,R8,R16
+NOP
+NOP
+NOP
+DIV R0,R9,3
+NOP
+NOP
+NOP
+STR R0,0(R27)
+ADDI R27,R27,1
+
+/Calcula el punto G
+ptG:
+MULI R8,R24,2
+NOP
+NOP
+NOP
+ADD R9,R8,R22
+NOP
+NOP
+NOP
+DIV R0,R9,3
+NOP
+NOP
+NOP
+MOV R16,R0
+NOP
+STR R0,0(R27)
+ADDI R27,R27,1
+
+/Calcula el punto J
+MULI R8,R25,2
+NOP
+NOP
+NOP
+ADD R9,R8,R23
+NOP
+NOP
+NOP
+DIV R0,R9,3
+NOP
+NOP
+NOP
+MOV R15,R0
+NOP
+STR R0,0(R27)
+ADDI R27,R27,1
+
+/Calcula el punto H
+MULI R8,R16,2
+NOP
+NOP
+NOP
+ADD R9,R8,R15
+NOP
+NOP
+NOP
+DIV R0,R9,3
+NOP
+NOP
+NOP
+STR R0,0(R27)
+ADDI R27,R27,1
+
+/Calcula el punto I
+MULI R8,R15,2
+NOP
+NOP
+NOP
+ADD R9,R8,R16
+NOP
+NOP
+NOP
+DIV R0,R9,3
+NOP
+NOP
+NOP
+STR R0,0(R27)
+ADDI R27,R27,1
+
+/Calcula el punto K
+MULI R8,R24,2
+NOP
+NOP
+NOP
+ADD R9,R8,R25
+NOP
+NOP
+NOP
+DIV R0,R9,3
+NOP
+NOP
+NOP
+STR R0,0(R27)
+ADDI R27,R27,1
+
+/Calcula el punto L
+ptL:
+MULI R8,R25,2
+NOP
+NOP
+NOP
+ADD R9,R8,R24
+NOP
+NOP
+NOP
+DIV R0,R9,3
+NOP
+NOP
+NOP
+STR R0,0(R27)
+ADDI R27,R27,1
+
+/FINAL DEL ALGORITMO
+ADDI R29,R29,1
+NOP
+NOP 
+NOP
+/CONDICION DE PARADA
+JLT R29,R12,top: 
+MULI R26,R12,1
+FIN
+```
 
 ## :x: Limitaciones
 A continuación se presentan algunas instrucciones que deben de seguirse con el fin de que el programa funcione de la manera correcta:
