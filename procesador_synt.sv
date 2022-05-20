@@ -131,19 +131,5 @@ Pipeline_MEM_WB pipelineWB (	.clk(clk), .rst(rst), .data(Mem_Out), .aluRes(alu_R
 mux_321 mux_Mem_WB(.signalA(Mem_Out_new), .signalB(alu_Result_new2), .signalC(signImm_new2), 
 								.selector(mem_to_reg_new3), .result(WD3_new));
 
-//mux_321 mux_Mem_WB(.signalA(32'd5), .signalB(32'd10), .signalC(32'd20), 
-//								.selector(mem_to_reg_new3), .result(WD3_new));								
-
-
-//always #5 clk = ~clk;
-//
-//initial
-//	begin
-//	
-//		rst = 1'b1; 
-//		#10;
-//		rst = 1'b0;
-//
-//	end
 
 endmodule
