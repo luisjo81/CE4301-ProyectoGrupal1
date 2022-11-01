@@ -53,9 +53,9 @@ Control_Unit CU(.opcode(opcode), .pc_src(pc_src), .mem_to_reg(mem_to_reg),
 					.imm_src(imm_src), .reg_write(reg_write), .alu_src(alu_src));
 							
 logic [31:0] extendRes, extendRes_new, RD1, RD2, RD1_new, RD2_new, RD2_new2, signImm_new, signImm_new2;
-logic [31:0] registerBank[31:0], alu_Result, alu_Result_new, alu_Result_new2, RD_res, Mem_Out, Mem_Out_new;
+logic [31:0] registerBank[31:0], alu_Result, alu_Result_new, alu_Result_new2, RD_res;
 logic [47:0] RD1V, RD2V, RD1V_new, RD2V_new, RD2V_new2;
-logic [47:0] registerBankV[31:0], alu_Result, alu_Result_new, alu_Result_new2, RD_res, Mem_Out, Mem_Out_new;
+logic [47:0] registerBankV[31:0], alu_ResultV, alu_ResultV_new, alu_Result_new2, RD_res, Mem_Out, Mem_Out_new;
 //logic we_RF;
 							
 //Modulo del banco de registros
@@ -97,6 +97,7 @@ mux_32bits mux_Reg_Alu(.signalA(RD2_new), .signalB(extendRes_new), .selector(alu
 //:::::	Entra alu_control sale la señal sostenida								
 alu ALU(.alu_ctrl(alu_control_new), .src_A(RD1_new), .src_B(RD_res), .alu_result(alu_Result));
 
+alu_vectorial ALUV(.alu_ctrl(alu_control_new), .src_A(RD1V_new), .src_B(RD2V_new), .alu_result(alu_ResultV))
 
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -106,12 +107,12 @@ alu ALU(.alu_ctrl(alu_control_new), .src_A(RD1_new), .src_B(RD_res), .alu_result
 //Pipeline
 //:::::
 Pipeline_EX_MEM pipelineExecute(.clk(clk), .rst(rst), .mem_to_reg(mem_to_reg_new), .mem_write(mem_write_new),
-										.pc_count(pc_count_new2), .RD2(RD2_new), .aluResult(alu_Result), 
+										.pc_count(pc_count_new2), .RD2(RD2_new), .aluResult(alu_Result), .RD2V(RD2V_new), .aluResultV(alu_ResultV), 
 										.mem_to_reg_new(mem_to_reg_new2), .mem_write_new(mem_write_new2), .pc_count_new(pc_count_new3), 
 										.RD2_new(RD2_new2), .aluResult_new(alu_Result_new), 
 										.reg_write(reg_write_new), .reg_write_new(reg_write_new2),
 										.signImm(extendRes_new), .signImm_new(signImm_new),
-										.rd(rd2),.rd_new(rd3));
+										.rd(rd2),.rd_new(rd3), .vd(vd2), .vd_new(vd3), .RD2V_new(RD2V_new2), .aluResultV_new(alu_ResultV_new));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>										
 

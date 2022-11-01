@@ -25,6 +25,9 @@ module Pipeline_ID_EX(input logic clk, rst, mem_write, alu_src,reg_write,
 				signImm_new = 32'b0; 
 				rd_new = 5'b0;
 				alu_src_new = 1'b0;
+				vd_new = 5'b0;
+				RD1V_new = 48'b0;
+				RD2V_new = 48'b0;
 			end
 			else begin
 				mem_to_reg_new = mem_to_reg;
@@ -37,6 +40,9 @@ module Pipeline_ID_EX(input logic clk, rst, mem_write, alu_src,reg_write,
 				reg_write_new = reg_write;
 				rd_new = rd;
 				alu_src_new = alu_src;
+				vd_new = vd;
+				RD1V_new = RD1V;
+				RD2V_new = RD2V;
 			end
 
 endmodule 

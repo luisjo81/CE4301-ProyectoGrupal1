@@ -3,13 +3,15 @@ module Pipeline_EX_MEM(input logic clk, rst, mem_write,reg_write,
 							input logic [31:0] RD2, aluResult,
 							input logic [1:0] mem_to_reg,
 							input logic [31:0] signImm,
-							input logic [4:0] rd,
-							output logic [4:0] rd_new,
+							input logic [4:0] rd, vd,
+							input logic [47:0] RD2V, aluResultV, 
+							output logic [4:0] rd_new, vd_new,
 							output logic [31:0] signImm_new,
 							output logic [1:0] mem_to_reg_new,
 							output logic mem_write_new, reg_write_new,
 							output logic [31:0] pc_count_new,
-							output logic [31:0] RD2_new, aluResult_new);
+							output logic [31:0] RD2_new, aluResult_new,
+							output logic [47:0] RD2V_new, aluResultV_new);
 		always_ff @(posedge clk or posedge rst)
 			if(rst) begin
 				mem_to_reg_new = 1'b00;
@@ -20,6 +22,9 @@ module Pipeline_EX_MEM(input logic clk, rst, mem_write,reg_write,
 				aluResult_new = 32'b0;
 				signImm_new = 32'b0;
 				rd_new = 5'b0;
+				vd_new = 5'b0;
+				RD2V_new = 48'b0;
+				aluResultV_new = 48'b0;
 			end
 			else begin
 				mem_to_reg_new = mem_to_reg;
@@ -30,6 +35,9 @@ module Pipeline_EX_MEM(input logic clk, rst, mem_write,reg_write,
 				reg_write_new = reg_write;
 				signImm_new = signImm;
 				rd_new = rd;
+				vd_new = vd;
+				RD2V_new = RD2V;
+				aluResultV_new = aluResultV;
 			end
 
 endmodule
