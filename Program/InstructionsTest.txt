@@ -1,34 +1,21 @@
-/Contadores de los algoritmos
 MOV R22,0
-MOV R23,255
-ADD R23,R23,255
-ADD R23,R23,125
-MOV R24,255
-ADD R24,R24,R23
-ADD R24,R24,200
-ADD R24,R24,170
-MOV R25,255
-ADD R25,R25,R24
-ADD R25,R25,255
-ADD R25,R25,115
+MOV R23,1667
+MOV R24,3334
+MOV R25,5000
 MOV R26,0
-MOV R27,43
+MOV R27,8
 MOV R28,1
 NOP
 MOV R31,0
 NOP
-
-/Degradados de entrada
 MOV R4,255
-DIV R8,R4,44
+DIV R8,R4,8
 MOV R6,128
-DIV R9,R6,44
+DIV R9,R6,8
 MOV R5,192
-DIV R7,R4,44
+DIV R7,R4,8
 MOV R3,128
 NOP
-
-/Se realiza el degradado Rojo
 algoritmoRojo:
 LDV VR22,0(R22)
 SUB R10,R28,R3
@@ -40,14 +27,10 @@ ADDI R22,R22,1
 ADDI R26,R26,1
 JEQ R26,R27,degradadoRojo:
 JLT R22,R23,algoritmoRojo:
-
-/Se realiza el degradado Rojo
 degradadoRojo:
 SUB R4,R4,R8
 MOV R26,0
 JGT R4,R8,algoritmoRojo:
-
-/Se realiza el degradado Verde
 algoritmoVerde:
 LDV VR23,0(R23)
 SUB R10,R28,R3
@@ -59,14 +42,10 @@ ADDI R23,R23,1
 ADDI R26,R26,1
 JEQ R26,R27,degradadoVerde:
 JLT R23,R24,algoritmoVerde:
-
-/Se realiza el degradado Verde
 degradadoVerde:
 SUB R6,R6,R9
 MOV R26,0
 JGT R6,R9,algoritmoVerde:
-
-/Se realiza el degradado Azul
 algoritmoAzul:
 LDV VR24,0(R24)
 SUB R10,R28,R3
@@ -78,8 +57,6 @@ ADDI R24,R24,1
 ADDI R26,R26,1
 JEQ R26,R27,degradadoAzul:
 JLT R24,R25,algoritmoAzul:
-
-/Se realiza el degradado Azul
 degradadoAzul:
 SUB R5,R5,R7
 MOV R26,0
