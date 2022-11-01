@@ -107,7 +107,7 @@ Pipeline_EX_MEM pipelineExecute(.clk(clk), .rst(rst), .mem_to_reg(mem_to_reg_new
 //>>>>>>>>> MEMORY >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 									
 //RAM
-Ram dataMemory_m(.address(alu_Result_new), .clock(clk), .data(RD2_new2), .wren(mem_write_new2), .q(Mem_Out));
+ram dataMemory_m(.address(alu_Result_new), .clock(clk), .data(RD2_new2), .wren(mem_write_new2), .q(Mem_Out));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //:::::

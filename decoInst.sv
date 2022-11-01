@@ -20,8 +20,8 @@ module decoInst (
 
 always @ (negedge clk)
 	begin
-	case (inst[31:30])
-	//Operaciones Aritmeticas
+		case (inst[31:30])
+		//Operaciones Aritmeticas
 		2'b00 : 
 			begin
 				opcode = inst[31:25] ;
@@ -31,18 +31,18 @@ always @ (negedge clk)
 						case (inst[28])
 							1'b0: imm15 = inst[14:0] ;
 							default: 
-							begin
-								rd = inst[24:20] ;
-								rn = inst[19:15] ;
-								rm	= inst[14:10] ;
-							end
+								begin
+									rd = inst[24:20] ;
+									rn = inst[19:15] ;
+									rm	= inst[14:10] ;
+								end
 						endcase
 						end
 					default:
 						begin
 						case (inst[28])
-							1'b0: vimm15 = inst[14:0] ;
-							default: 
+						1'b0: vimm15 = inst[14:0] ;
+						default: 
 							begin
 								vd = inst[24:20] ;
 								vn = inst[19:15] ;
@@ -51,13 +51,13 @@ always @ (negedge clk)
 						endcase
 						end
 				endcase
-				
 			end
 		2'b01 :
 			begin	
-				opcode = inst[31:25] ;
-				case (inst[29]):
+				opcode = inst[31:25];
+				case (inst[29])
 					1'b0:
+					begin
 						rd = inst[24:20] ;
 						rn = inst[19:15] ;
 						case (inst[28])
@@ -65,39 +65,39 @@ always @ (negedge clk)
 							begin
 								rm = inst[14:10] ;
 							end
-							1'b1 : 
+						1'b1 : 
 							begin
 								imm15 = inst[14:0] ;
 							end
 						endcase
+					end
 					default:
+					begin
 						vd = inst[24:20] ;
 						vn = inst[19:15] ;
 						case (inst[28])
-						1'b0 : 
-							begin
-								vm = inst[14:10] ;
-							end
-							1'b1 : 
-							begin
-								vimm15 = inst[14:0] ;
-							end
+						1'b0 : vm = inst[14:10] ;
+						1'b1 : vimm15 = inst[14:0] ;
 						endcase
+					end
 				endcase
-
 			end
 		2'b10 :
 			begin
 				opcode = inst[31:25] ;
-				case(inst[29]):
+				case(inst[29])
 					1'b0:
+					begin
 						rd = inst[24:20] ;
 						rn = inst[19:15] ;
 						imm15 = inst[14:0] ;
+					end
 					default:
+					begin
 						vd = inst[24:20] ;
 						vn = inst[19:15] ;
 						vimm15 = inst[14:0] ;
+					end
 				endcase
 			end
 		2'b11 :
@@ -110,12 +110,9 @@ always @ (negedge clk)
 					rn = inst[19:15] ;
 					imm15 = inst[14:0];
 				end
-				1'b1 : 
-				begin
-					imm25 = inst[24:0];
-				end
+				1'b1 : imm25 = inst[24:0];
 				endcase
 			end
-	endcase
+		endcase
 	end
 endmodule
