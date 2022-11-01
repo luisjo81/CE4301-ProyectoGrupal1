@@ -1,4 +1,4 @@
-module alu #(parameter N=32)
+module alu #(parameter N=8)
 (
 	input logic [4:0] alu_ctrl,
 	input logic [N-1:0] src_A,
@@ -144,7 +144,7 @@ module alu #(parameter N=32)
 					end
 
 			 default : begin 
-				   TRESULT = 32'd0;
+				   TRESULT = 8'd0;
 				   //TFLAGS = 4'b0000;
 				  end
       endcase

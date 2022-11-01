@@ -1,32 +1,30 @@
 `timescale 1 ps / 1 ps
 
 module procesador(
-//input logic clk, 
-//input logic rst
+input logic clk, 
+input logic rst
 	
 );
+logic start;
 
-logic clk = 0; 
-logic rst;
 logic [31:0] pc_count, pc_count_new, pc_count_new2, pc_count_new3;
 
 //>>>>>>>>> FETCH >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-logic [25:0] inst, inst_new;
+logic [31:0] inst, inst_new;
 //Modulo del PC
 pc pc_m (.clk(clk), .rst(rst), .en(pc_src), .pc_branch(pc_count_new2), .pc_count(pc_count));
 
 //Modulo de las instrucciones
-Rom instructionMemory_m (.address(pc_count), .clock(clk), .q(inst));
+instruction_memory instructionMemory_m (.address(pc_count), .clock(clk), .rden(start), .q(inst));
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //::::
-Pipeline_IF_ID pipelineFetch (.clk(clk), .rst(rst), .q(inst),
-										.pc_count(pc_count), .q_new(inst_new), .pc_count_new(pc_count_new));
+pipeline pipelineFetch (clk, rst, {inst, pc_count}, {inst_new, pc_count_new});
 //:::: 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 //>>>>>>>> DECODE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-logic [5:0]opcode;
+logic [6:0]opcode;
 logic [4:0] rd, rd2, rd3, rd4;
 logic [4:0] rn;
 logic [4:0] rm;
@@ -36,7 +34,7 @@ logic [19:0] imm20;
 logic [31:0] WD3_new;	
 //Modulo del decodificador
 decoInst decoInst_m (.clk(clk), .inst(inst_new), .opcode(opcode), .rd(rd), .rn(rn), 
-							.rm(rm), .imm10(imm10), .imm15(imm15), .imm20(imm20));
+							.rm(rm), .imm15(imm15));
 
 logic [1:0] mem_to_reg, mem_to_reg_new, mem_to_reg_new2, mem_to_reg_new3;
 logic mem_write, mem_write_new, mem_write_new2;
@@ -136,15 +134,15 @@ mux_321 mux_Mem_WB(.signalA(Mem_Out_new), .signalB(alu_Result_new2), .signalC(si
 //								.selector(mem_to_reg_new3), .result(WD3_new));								
 
 
-always #5 clk = ~clk;
-
-initial
-	begin
-	
-		rst = 1'b1; 
-		#10;
-		rst = 1'b0;
-
-	end
+//always #5 clk = ~clk;
+//
+//initial
+//	begin
+//	
+//		rst = 1'b1; 
+//		#10;
+//		rst = 1'b0;
+//
+//	end
 
 endmodule

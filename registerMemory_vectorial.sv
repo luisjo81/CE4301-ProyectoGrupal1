@@ -1,11 +1,11 @@
-module registerMemory(clk, rst, we_RF, A1, A2, A3, WD3, RD1, RD2, registerBank);
+module registerMemory_vectorial(clk, rst, we_RF, A1, A2, A3, WD3, RD1, RD2, registerBank);
 
 input logic rst, clk, we_RF;
 input logic [4:0] A1, A2, A3;
-input logic [31:0] WD3;
+input logic [47:0] WD3;
 
-output logic [31:0] RD1, RD2;
-output logic [31:0] registerBank[31:0];
+output logic [47:0] RD1, RD2;
+output logic [47:0] registerBank[31:0];
 
 always@(posedge clk) 
 		begin
