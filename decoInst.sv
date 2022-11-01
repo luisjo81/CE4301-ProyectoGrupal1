@@ -76,8 +76,8 @@ always @ (negedge clk)
 						vd = inst[24:20] ;
 						vn = inst[19:15] ;
 						case (inst[28])
-						1'b0 : vm = inst[14:10] ;
-						1'b1 : vimm15 = inst[14:0] ;
+							1'b0 : vm = inst[14:10] ;
+							1'b1 : vimm15 = inst[14:0] ;
 						endcase
 					end
 				endcase

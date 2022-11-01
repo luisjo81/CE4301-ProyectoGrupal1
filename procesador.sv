@@ -28,13 +28,16 @@ logic [6:0]opcode;
 logic [4:0] rd, rd2, rd3, rd4;
 logic [4:0] rn;
 logic [4:0] rm;
-logic [9:0] imm10; 
+logic [4:0] vd, vd2, vd3, vd4;
+logic [4:0] vn;
+logic [4:0] vm;
 logic [14:0] imm15; 
-logic [19:0] imm20;
-logic [31:0] WD3_new;	
+logic [24:0] imm25;
+logic [31:0] WD3_new;
+logic [47:0] WD3V_new;	
 //Modulo del decodificador
 decoInst decoInst_m (.clk(clk), .inst(inst_new), .opcode(opcode), .rd(rd), .rn(rn), 
-							.rm(rm), .imm15(imm15));
+							.rm(rm), .imm15(imm15), .imm25(imm25), .vd(vd), .vn(vn), .vm(vm), .vimm(vimm));
 
 logic [1:0] mem_to_reg, mem_to_reg_new, mem_to_reg_new2, mem_to_reg_new3;
 logic mem_write, mem_write_new, mem_write_new2;
@@ -51,11 +54,16 @@ Control_Unit CU(.opcode(opcode), .pc_src(pc_src), .mem_to_reg(mem_to_reg),
 							
 logic [31:0] extendRes, extendRes_new, RD1, RD2, RD1_new, RD2_new, RD2_new2, signImm_new, signImm_new2;
 logic [31:0] registerBank[31:0], alu_Result, alu_Result_new, alu_Result_new2, RD_res, Mem_Out, Mem_Out_new;
+logic [47:0] RD1V, RD2V, RD1V_new, RD2V_new, RD2V_new2;
+logic [47:0] registerBankV[31:0], alu_Result, alu_Result_new, alu_Result_new2, RD_res, Mem_Out, Mem_Out_new;
 //logic we_RF;
 							
 //Modulo del banco de registros
 registerMemory registerMemory_m (.clk(clk), .rst(rst), .we_RF(reg_write_new3), .A1(rn), .A2(rm), .A3(rd4), 
 											.WD3(WD3_new), .RD1(RD1), .RD2(RD2), .registerBank(registerBank));
+											
+registerMemory_vectorial registerMemory_v (.clk(clk), .rst(rst), .we_RF(reg_write_new3), .A1(vn), .A2(vm), .A3(vd4), 
+											.WD3(WD3V_new), .RD1(RD1V), .RD2(RD2V), .registerBank(registerBankV));
 
 //Módulo de extensión de signo
 extend extender(.imm_src(imm_src), .imm(imm10), .imm2(imm15), .imm3(imm20), .result(extendRes));
@@ -74,7 +82,10 @@ Pipeline_ID_EX pipelineDecode(.clk(clk), .rst(rst),
 					.RD2(RD2), .RD2_new(RD2_new),
 					.signImm(extendRes), .signImm_new(extendRes_new),
 					.reg_write(reg_write), .reg_write_new(reg_write_new),
-					.rd(rd),.rd_new(rd2));
+					.rd(rd),.rd_new(rd2),
+					.vd(vd), .vd_new(vd2)
+					.RD1V(RD1V), .RD1V_new(RD1V_new),
+					.RD2V(RD2V), .RD2V_new(RD2V_new));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

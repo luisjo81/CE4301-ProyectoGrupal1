@@ -3,13 +3,15 @@ module Pipeline_ID_EX(input logic clk, rst, mem_write, alu_src,reg_write,
 						input logic [31:0] pc_count,
 						input logic [31:0] RD1, RD2, signImm,
 						input logic [1:0] mem_to_reg,
-						input logic [4:0] rd,
-						output logic [4:0] rd_new,
+						input logic [4:0] rd, vd, 
+						input logic [47:0] RD1V, RD2V, 
+						output logic [4:0] rd_new, vd_new,
 						output logic mem_write_new, alu_src_new, reg_write_new,
 						output logic [1:0] mem_to_reg_new,
 						output logic [4:0] alu_control_new,
 						output logic [31:0] pc_count_new,
-						output logic [31:0] RD1_new, RD2_new, signImm_new);
+						output logic [31:0] RD1_new, RD2_new, signImm_new,
+						output logic [47:0] RD1V_new, RD2V_new);
 					  
 		always_ff @(posedge clk or posedge rst)
 			if(rst) begin

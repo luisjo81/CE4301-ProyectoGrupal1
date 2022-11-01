@@ -9,7 +9,7 @@ instructionLines = {}
 
 #Función principal que se encarga de leer el archivo con las intrucciones y las almacena en una lista
 def readFile():
-    file = open('./Test1.txt', 'r')
+    file = open('../Program/Test1.txt', 'r')
     print("File opened")
     print("....................................")
     tempList = []
@@ -442,7 +442,7 @@ def parseInstruction(instruction, line):
 def createBinary():
     line = 0
     parsedBinaryData = ''
-    file = open("./parsedInst.txt", "a+")
+    file = open("../Program/parsedInst.txt", "a+")
     print("Creating binary file")
     for i in instructionsList:
         parsedBinaryData = parseInstruction(instructionToList(i), line)
