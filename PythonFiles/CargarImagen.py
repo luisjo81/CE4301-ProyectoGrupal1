@@ -61,7 +61,7 @@ def imgToMemory(data):
         else:
             vec_count += 1
         data_count += 3
-    filewrite.write("    [" + str(mem_count) + "..8192]    :    0;\n")
+    filewrite.write("    [" + str(mem_count) + "..8191]    :    000000000000000000000000000000000000000000000000;\n")
     filewrite.write("END;\n")
 
 
