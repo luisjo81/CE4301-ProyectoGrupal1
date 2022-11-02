@@ -2,7 +2,14 @@
 
 module procesador(
 input logic clk, 
-input logic rst
+input logic rst,
+
+//User selection
+		input logic [1:0] r_value, //RED
+		input logic [1:0] g_value,	//GREEN
+		input logic [1:0] b_value,	//BLUE
+		input logic [1:0] t_value,	//TRANSPARENCY
+		input logic  o_value		//ORIENTATION
 	
 );
 logic start;
