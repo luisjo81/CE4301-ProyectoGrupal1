@@ -1,4 +1,4 @@
-module move_op #(parameter N=32)
+module move_op #(parameter N)
 (
   input logic [N-1:0] a,
   output logic [N-1:0] result

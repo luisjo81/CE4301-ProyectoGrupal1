@@ -21,12 +21,12 @@ module alu_vectorial #(parameter N=48)
 
 
   //"Instancias" de las operaciones 
-  alu ALU_1(alu_ctrl, src_A[7:0], src_B[7:0], TRESULT[7:0]);
-  alu ALU_2(alu_ctrl, src_A[15:8], src_B[15:8], TRESULT[15:8]);
-  alu ALU_3(alu_ctrl, src_A[23:16], src_B[23:16], TRESULT[23:16]);
-  alu ALU_4(alu_ctrl, src_A[31:24], src_B[31:24], TRESULT[31:24]);
-  alu ALU_5(alu_ctrl, src_A[39:32], src_B[39:32], TRESULT[39:32]);
-  alu ALU_6(alu_ctrl, src_A[47:40], src_B[47:40], TRESULT[47:40]);
+  alu #(8) ALU_1(alu_ctrl, src_A[7:0], src_B[7:0], TRESULT[7:0]);
+  alu #(8) ALU_2(alu_ctrl, src_A[15:8], src_B[15:8], TRESULT[15:8]);
+  alu #(8) ALU_3(alu_ctrl, src_A[23:16], src_B[23:16], TRESULT[23:16]);
+  alu #(8) ALU_4(alu_ctrl, src_A[31:24], src_B[31:24], TRESULT[31:24]);
+  alu #(8) ALU_5(alu_ctrl, src_A[39:32], src_B[39:32], TRESULT[39:32]);
+  alu #(8) ALU_6(alu_ctrl, src_A[47:40], src_B[47:40], TRESULT[47:40]);
 	
 	
 	assign alu_result = TRESULT;

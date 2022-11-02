@@ -8,7 +8,7 @@ module op_tb();
 	
 	//je_op JEQ_TB(srcA,srcB,result);
 	//jgt_op JG_TB(srcA,srcB,result);
-	mult_op Multi(srcA, srcB, result);
+	mult_op #(32) Multi(srcA, srcB, result);
 	
 	
 	initial begin

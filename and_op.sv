@@ -1,4 +1,4 @@
-module and_op #(parameter N=32)
+module and_op #(parameter N)
 (
   input logic [N-1:0] a,
   input logic [N-1:0] b,

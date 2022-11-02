@@ -96,9 +96,9 @@ Pipeline_ID_EX pipelineDecode(.clk(clk), .rst(rst),
 mux_32bits mux_Reg_Alu(.signalA(RD2_new), .signalB(extendRes_new), .selector(alu_src_new), .result(RD_res));
 					
 //:::::	Entra alu_control sale la señal sostenida								
-alu ALU(.alu_ctrl(alu_control_new), .src_A(RD1_new), .src_B(RD_res), .alu_result(alu_Result));
+//alu ALU(.alu_ctrl(alu_control_new), .src_A(RD1_new), .src_B(RD_res), .alu_result(alu_Result));
 
-alu_vectorial ALUV(.alu_ctrl(alu_control_new), .src_A(RD1V_new), .src_B(RD2V_new), .alu_result(alu_ResultV));
+alu_vectorial #(48) ALUV(.alu_ctrl(alu_control_new), .src_A(RD1V_new), .src_B(RD2V_new), .alu_result(alu_ResultV));
 
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

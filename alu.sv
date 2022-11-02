@@ -43,24 +43,24 @@ module alu #(parameter N=8)
 
   //"Instancias" de las operaciones 
   
-	add_op ADD_OP(src_A, src_B, temp_result_add); // ADD
-	sub_op SUB_OP(src_A, src_B, temp_result_sub); // SUB
-	mult_op MUL_OP(src_A, src_B, temp_result_mul); //MUL
-	div_op DIV_OP(src_A, src_B, temp_result_div); //DIV
-	move_op MOVE_OP(src_A, temp_result_move);//MOVE
-	load8BitNumber LNUM_OP(src_A,src_B, temp_result_lnum);//LNUM
-	and_op AND_OP(src_A, src_B, temp_result_and);//AND
-	or_op OR_OP(src_A, src_B, temp_result_or);//OR
-	xor_op XOR_OP(src_A, src_B, temp_result_xor);//XOR
-	not_op NOT_OP(src_A, temp_result_not);//NOT
-	add_op LDR_OP(src_A, src_B, temp_result_ldr); // ADD LDR
-	add_op STR_OP(src_A, src_B, temp_result_str); // ADD STR
-	je_op JE_OP(src_A, temp_result_je);//JEQ
-	jne_op JNE_OP(src_A, temp_result_jne);//JNE
-	jgt_op JGT_OP(src_A, temp_result_jgt);//JGT
-	jge_op JGE_OP(src_A, temp_result_jge);//JGE
-	jlt_op JLT_OP(src_A, temp_result_jlt);//JLT
-	jle_op JLE_OP(src_A, temp_result_jle);//JLE
+	add_op #(N) ADD_OP(src_A, src_B, temp_result_add); // ADD
+	sub_op #(N) SUB_OP(src_A, src_B, temp_result_sub); // SUB
+	mult_op #(N) MUL_OP(src_A, src_B, temp_result_mul); //MUL
+	div_op #(N) DIV_OP(src_A, src_B, temp_result_div); //DIV
+	move_op #(N) MOVE_OP(src_A, temp_result_move);//MOVE
+	//load8BitNumber LNUM_OP(src_A,src_B, temp_result_lnum);//LNUM
+	and_op #(N) AND_OP(src_A, src_B, temp_result_and);//AND
+	or_op #(N) OR_OP(src_A, src_B, temp_result_or);//OR
+	xor_op #(N) XOR_OP(src_A, src_B, temp_result_xor);//XOR
+	not_op #(N) NOT_OP(src_A, temp_result_not);//NOT
+	add_op #(N) LDR_OP(src_A, src_B, temp_result_ldr); // ADD LDR
+	add_op #(N) STR_OP(src_A, src_B, temp_result_str); // ADD STR
+	je_op #(N) JE_OP(src_A, temp_result_je);//JEQ
+	jne_op #(N) JNE_OP(src_A, temp_result_jne);//JNE
+	jgt_op #(N) JGT_OP(src_A, temp_result_jgt);//JGT
+	jge_op #(N) JGE_OP(src_A, temp_result_jge);//JGE
+	jlt_op #(N) JLT_OP(src_A, temp_result_jlt);//JLT
+	jle_op #(N) JLE_OP(src_A, temp_result_jle);//JLE
 	
 	
 	
@@ -91,9 +91,9 @@ module alu #(parameter N=8)
 				   TRESULT = temp_result_div;
 				  end
 				  
-			 6 : begin 
-				   TRESULT = temp_result_lnum;
-				  end
+//			 6 : begin 
+//				   TRESULT = temp_result_lnum;
+//				  end
 
           9 : begin 
 				   TRESULT = temp_result_and;
