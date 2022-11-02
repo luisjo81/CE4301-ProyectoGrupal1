@@ -55,7 +55,7 @@ Control_Unit CU(.opcode(opcode), .pc_src(pc_src), .mem_to_reg(mem_to_reg),
 logic [31:0] extendRes, extendRes_new, RD1, RD2, RD1_new, RD2_new, RD2_new2, signImm_new, signImm_new2;
 logic [31:0] registerBank[31:0], alu_Result, alu_Result_new, alu_Result_new2, RD_res;
 logic [47:0] RD1V, RD2V, RD1V_new, RD2V_new, RD2V_new2;
-logic [47:0] registerBankV[31:0], alu_ResultV, alu_ResultV_new, alu_Result_new2, RD_res, Mem_Out, Mem_Out_new;
+logic [47:0] registerBankV[31:0], alu_ResultV, alu_ResultV_new, alu_ResultV_new2, Mem_Out, Mem_Out_new;
 //logic we_RF;
 							
 //Modulo del banco de registros
@@ -119,7 +119,7 @@ Pipeline_EX_MEM pipelineExecute(.clk(clk), .rst(rst), .mem_to_reg(mem_to_reg_new
 //>>>>>>>>> MEMORY >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 									
 //RAM
-ram dataMemory_m(.address(alu_Result_new), .clock(clk), .data(RD2_new2), .wren(mem_write_new2), .q(Mem_Out));
+ram dataMemory_m(.address(alu_ResultV_new), .clock(clk), .data(RD2V_new2), .wren(mem_write_new2), .q(Mem_Out));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //:::::
