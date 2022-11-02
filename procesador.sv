@@ -9,6 +9,8 @@ logic start;
 
 logic [31:0] pc_count, pc_count_new, pc_count_new2, pc_count_new3;
 
+logic stall;
+
 //>>>>>>>>> FETCH >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 logic [31:0] inst, inst_new;
 //Modulo del PC
@@ -18,7 +20,7 @@ pc pc_m (.clk(clk), .rst(rst), .en(pc_src), .pc_branch(pc_count_new2), .pc_count
 instruction_memory instructionMemory_m (.address(pc_count), .clock(clk), .rden(start), .q(inst));
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //::::
-pipeline pipelineFetch (clk, rst, {inst, pc_count}, {inst_new, pc_count_new});
+Pipeline_IF_ID pipelineFetch (.clk(clk), .rst(rst), .q(inst), .pc_count(pc_count), .q_new(inst_new), .pc_count_new(pc_count_new));
 //:::: 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -37,7 +39,7 @@ logic [31:0] WD3_new;
 logic [47:0] WD3V_new;	
 //Modulo del decodificador
 decoInst decoInst_m (.clk(clk), .inst(inst_new), .opcode(opcode), .rd(rd), .rn(rn), 
-							.rm(rm), .imm15(imm15), .imm25(imm25), .vd(vd), .vn(vn), .vm(vm), .vimm(vimm));
+							.rm(rm), .imm15(imm15), .imm25(imm25), .vd(vd), .vn(vn), .vm(vm), .vimm15(vimm));
 
 logic [1:0] mem_to_reg, mem_to_reg_new, mem_to_reg_new2, mem_to_reg_new3;
 logic mem_write, mem_write_new, mem_write_new2;
@@ -83,7 +85,7 @@ Pipeline_ID_EX pipelineDecode(.clk(clk), .rst(rst),
 					.signImm(extendRes), .signImm_new(extendRes_new),
 					.reg_write(reg_write), .reg_write_new(reg_write_new),
 					.rd(rd),.rd_new(rd2),
-					.vd(vd), .vd_new(vd2)
+					.vd(vd),.vd_new(vd2),
 					.RD1V(RD1V), .RD1V_new(RD1V_new),
 					.RD2V(RD2V), .RD2V_new(RD2V_new));
 
@@ -97,7 +99,7 @@ mux_32bits mux_Reg_Alu(.signalA(RD2_new), .signalB(extendRes_new), .selector(alu
 //:::::	Entra alu_control sale la señal sostenida								
 alu ALU(.alu_ctrl(alu_control_new), .src_A(RD1_new), .src_B(RD_res), .alu_result(alu_Result));
 
-alu_vectorial ALUV(.alu_ctrl(alu_control_new), .src_A(RD1V_new), .src_B(RD2V_new), .alu_result(alu_ResultV))
+alu_vectorial ALUV(.alu_ctrl(alu_control_new), .src_A(RD1V_new), .src_B(RD2V_new), .alu_result(alu_ResultV));
 
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

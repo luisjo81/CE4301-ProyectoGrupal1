@@ -5,16 +5,16 @@ module decoInst (
 	input logic clk, 
 	input logic [32:0] inst, 
 //Salidas: 
-	output logic [6:0] opcode,
-	output logic [4:0] rd ,
-	output logic [4:0] rn ,
-	output logic [4:0] rm , 
-	output logic [14:0] imm15 ,
-	output logic [24:20] imm25 ,
-	output logic [4:0] vd ,
-	output logic [4:0] vn ,
-	output logic [4:0] vm ,
-	output logic [14:0] vimm15
+	output logic [6:0] 	opcode,
+	output logic [4:0] 	rd ,
+	output logic [4:0] 	rn ,
+	output logic [4:0] 	rm , 
+	output logic [14:0] 	imm15,
+	output logic [24:20] imm25,
+	output logic [4:0] 	vd ,
+	output logic [4:0] 	vn ,
+	output logic [4:0] 	vm ,
+	output logic [14:0] 	vimm15
 	);
 
 
