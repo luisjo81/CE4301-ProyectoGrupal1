@@ -120,7 +120,7 @@ Pipeline_EX_MEM pipelineExecute(.clk(clk), .rst(rst), .mem_to_reg(mem_to_reg_new
 //>>>>>>>>> MEMORY >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 									
 //RAM
-ram dataMemory_m(.address(alu_ResultV_new | alu_Result_new), .clock(clk), .data(RD2V_new2 | RD2_new), .wren(mem_write_new2), .q(Mem_Out));
+ram dataMemory_m(.address(alu_ResultV_new | {16'b0, alu_Result_new}), .clock(clk), .data(RD2V_new2 | {16'b0, RD2_new2}), .wren(mem_write_new2), .q(Mem_Out));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //:::::
@@ -140,7 +140,7 @@ Pipeline_MEM_WB pipelineWB (	.clk(clk), .rst(rst), .data(Mem_Out), .aluRes(alu_R
 
 
 
-mux_321 mux_Mem_WB(.signalA(Mem_Out_new), .signalB(alu_Result_new2 | alu_ResultV_new2), .signalC(signImm_new2), 
+mux_321 mux_Mem_WB(.signalA(Mem_Out_new), .signalB({16'b0, alu_Result_new2} | alu_ResultV_new2), .signalC(signImm_new2), 
 								.selector(mem_to_reg_new3), .result(WD3V_new));
 
 //mux_321 mux_Mem_WB(.signalA(32'd5), .signalB(32'd10), .signalC(32'd20), 
