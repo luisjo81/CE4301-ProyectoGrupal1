@@ -10,7 +10,7 @@ module decoInst (
 	output logic [4:0] 	rn ,
 	output logic [4:0] 	rm , 
 	output logic [14:0] 	imm15,
-	output logic [24:20] imm25,
+	output logic [24:0] imm25,
 	output logic [4:0] 	vd ,
 	output logic [4:0] 	vn ,
 	output logic [4:0] 	vm ,

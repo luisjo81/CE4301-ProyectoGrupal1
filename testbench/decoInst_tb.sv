@@ -1,6 +1,6 @@
 //`timescale 1 ps / 1 ps
 
-module tb_decoInst;
+module decoInst_tb();
 
 logic [31:0] inst, inst_new;
 logic clk = 0, rst, en = 1'b1;
@@ -16,13 +16,13 @@ logic [4:0] 	vm;
 logic [14:0] 	vimm15;
 logic [15:0] pc_count, new_pc, pc_count_new;
 
-decoInst decoInst (clk, inst_new, opcode,rd,rn,rm,imm15,imm25,vd,vn,vm,vimm15);
+decoInst decoInst_m (clk, inst_new, opcode,rd,rn,rm,imm15,imm25,vd,vn,vm,vimm15);
 					
-//instruction_memory instructionMemory_m (.address(pc_count), .clock(clk), .rden(en), .q(inst));
-//		
-//pc cont(clk, rst, en, new_pc, pc_count);
-//		
-//Pipeline_IF_ID pipelineFetch(clk, rst, inst, pc_count, inst_new, pc_count_new);
+instruction_memory instructionMemory_m (.address(pc_count), .clock(clk), .rden(en), .q(inst));
+		
+pc cont(clk, rst, en, new_pc, pc_count);
+		
+Pipeline_IF_ID pipelineFetch(clk, rst, inst, pc_count, inst_new, pc_count_new);
 
 always #5 clk = ~clk;
 
