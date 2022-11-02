@@ -35,7 +35,6 @@ logic [4:0] vn;
 logic [4:0] vm;
 logic [14:0] imm15; 
 logic [24:0] imm25;
-logic [31:0] WD3_new;
 logic [47:0] WD3V_new;	
 //Modulo del decodificador
 decoInst decoInst_m (.clk(clk), .inst(inst_new), .opcode(opcode), .rd(rd), .rn(rn), 
@@ -62,13 +61,13 @@ logic [47:0] registerBankV[31:0], alu_ResultV, alu_ResultV_new, alu_ResultV_new2
 							
 //Modulo del banco de registros
 registerMemory registerMemory_m (.clk(clk), .rst(rst), .we_RF(reg_write_new3), .A1(rn), .A2(rm), .A3(rd4), 
-											.WD3(WD3_new), .RD1(RD1), .RD2(RD2), .registerBank(registerBank));
+											.WD3(WD3V_new[31:0]), .RD1(RD1), .RD2(RD2), .registerBank(registerBank));
 											
 registerMemory_vectorial registerMemory_v (.clk(clk), .rst(rst), .we_RF(reg_write_new3), .A1(vn), .A2(vm), .A3(vd4), 
 											.WD3(WD3V_new), .RD1(RD1V), .RD2(RD2V), .registerBank(registerBankV));
 
 //Módulo de extensión de signo
-extend extender(.imm_src(imm_src), .imm(imm10), .imm2(imm15), .imm3(imm20), .result(extendRes));
+extend extender(.imm_src(imm_src), .imm(imm15), .imm2(imm25), .result(extendRes));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -121,19 +120,19 @@ Pipeline_EX_MEM pipelineExecute(.clk(clk), .rst(rst), .mem_to_reg(mem_to_reg_new
 //>>>>>>>>> MEMORY >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 									
 //RAM
-ram dataMemory_m(.address(alu_ResultV_new), .clock(clk), .data(RD2V_new2), .wren(mem_write_new2), .q(Mem_Out));
+ram dataMemory_m(.address(alu_ResultV_new | alu_Result_new), .clock(clk), .data(RD2V_new2 | RD2_new), .wren(mem_write_new2), .q(Mem_Out));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //:::::
 //Pipeline
 //:::::
 
-Pipeline_MEM_WB pipelineWB (	.clk(clk), .rst(rst), .data(Mem_Out), .aluRes(alu_Result_new),
+Pipeline_MEM_WB pipelineWB (	.clk(clk), .rst(rst), .data(Mem_Out), .aluRes(alu_Result_new), .aluResV(alu_ResultV_new),
 										.data_new(Mem_Out_new), .aluRes_new(alu_Result_new2), 
 										.men2reg_new (mem_to_reg_new3), .men2reg(mem_to_reg_new2),
 										.reg_write(reg_write_new2), .reg_write_new(reg_write_new3),
 										.signImm(signImm_new), .signImm_new(signImm_new2), 
-										.rd(rd3),.rd_new(rd4));
+										.rd(rd3),.rd_new(rd4), .vd(vd_new));
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>										
 
@@ -141,8 +140,8 @@ Pipeline_MEM_WB pipelineWB (	.clk(clk), .rst(rst), .data(Mem_Out), .aluRes(alu_R
 
 
 
-mux_321 mux_Mem_WB(.signalA(Mem_Out_new), .signalB(alu_Result_new2), .signalC(signImm_new2), 
-								.selector(mem_to_reg_new3), .result(WD3_new));
+mux_321 mux_Mem_WB(.signalA(Mem_Out_new), .signalB(alu_Result_new2 | alu_ResultV_new2), .signalC(signImm_new2), 
+								.selector(mem_to_reg_new3), .result(WD3V_new));
 
 //mux_321 mux_Mem_WB(.signalA(32'd5), .signalB(32'd10), .signalC(32'd20), 
 //								.selector(mem_to_reg_new3), .result(WD3_new));								

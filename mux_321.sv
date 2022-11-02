@@ -1,4 +1,4 @@
-module mux_321 #(parameter N=32)
+module mux_321 #(parameter N=48)
 (
 	input [N-1:0] signalA, signalB, signalC,
 	input [1:0]selector,

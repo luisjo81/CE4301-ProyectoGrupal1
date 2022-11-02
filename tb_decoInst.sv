@@ -19,11 +19,11 @@ logic [15:0] pc_count, new_pc, pc_count_new;
 
 decoInst decoInst (clk, inst_new, opcode,rd,rn,rm,imm15,imm25,vd,vn,vm,vimm15);
 					
-instruction_memory instructionMemory_m (.address(pc_count), .clock(clk), .rden(en), .q(inst));
-		
-pc cont(clk, rst, en, new_pc, pc_count);
-		
-Pipeline_IF_ID pipelineFetch(clk, rst, inst, pc_count, inst_new, pc_count_new);
+//instruction_memory instructionMemory_m (.address(pc_count), .clock(clk), .rden(en), .q(inst));
+//		
+//pc cont(clk, rst, en, new_pc, pc_count);
+//		
+//Pipeline_IF_ID pipelineFetch(clk, rst, inst, pc_count, inst_new, pc_count_new);
 
 always #5 clk = ~clk;
 
