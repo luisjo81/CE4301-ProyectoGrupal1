@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+from PIL import Image
 
 image = cv2.imread('../imgs/test1.png')
 data = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -50,11 +51,21 @@ def ComposicionAlfa(transparencia, degradadoRojo, degradadoVerde, degradadoAzul)
 
 OrdenarImagen(data)
 ComposicionAlfa(1/2, 1/4, 3/4, 1/2)
-print(R)
-print(B)
-print(G)
-        
-    
+print(len(R))
+print(len(B))
+print(len(G))
+R = np.array(R)
+G = np.array(G)
+B = np.array(B)
+R = R.reshape(100, 100)
+G = G.reshape(100, 100)
+B = B.reshape(100, 100)
+rgbArray = np.zeros((100,100,3), 'uint8')
+rgbArray[..., 0] = R
+rgbArray[..., 1] = G
+rgbArray[..., 2] = B
+img = Image.fromarray(rgbArray)
+img.save('../imgs/myimg.jpeg')
     
     
     
